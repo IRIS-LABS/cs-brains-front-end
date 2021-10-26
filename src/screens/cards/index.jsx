@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import PersonCardGroup from "../../components/Cards/PersonCardGroup";
 
 const Cards = () => {
-    return(
-        <div>Cards</div>
-    )
+  return (
+    <>
+      <PersonCardGroup />
+    </>
+  );
 };
 
 export default Cards;

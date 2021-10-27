@@ -1,8 +1,22 @@
-import React from 'react'
+import React from 'react';
+import { Grid } from '@material-ui/core';
+import RegisterBox from './RegisterBox';
 
 const Register = () => {
+
+
     return(
-        <div>Register</div>
+        <Grid 
+            container
+            alignItems="center"
+            justifyContent="center"
+            style={{ minHeight: '100vh'}}
+        >
+            <Grid container item justifyContent = "center" xs={12}>
+                <RegisterBox/> 
+            </Grid>
+                     
+        </Grid>
     )
 };
 

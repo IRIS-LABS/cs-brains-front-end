@@ -1,8 +1,23 @@
-import React from 'react'
+import React from 'react';
+import { Grid } from '@material-ui/core';
+import LoginBox from './LoginBox';
+
 
 const Login = () => {
+
+
     return(
-        <div>Login</div>
+        <Grid 
+            container
+            alignItems="center"
+            justifyContent="center"
+            style={{ minHeight: '100vh'}}
+        >
+            <Grid container justifyContent = "center" xs={12}>
+                <LoginBox/> 
+            </Grid>
+                     
+        </Grid>
     )
 };
 

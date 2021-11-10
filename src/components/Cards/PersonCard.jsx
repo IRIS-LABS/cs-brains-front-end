@@ -36,26 +36,21 @@ const useStyles = makeStyles({
   },
 });
 
-const PersonCard = ({ connected = false }) => {
+const PersonCard = ({ connected = false, heading, subHeading, url, id }) => {
   const classes = useStyles();
 
-  const handleConnect = () => {
-    console.log("Connected");
+  const handleConnect = (id) => {
+    console.log("Connected", id);
   };
 
-  const handleUnfollow = () => {
-    console.log("Unfollowed");
+  const handleUnfollow = (id) => {
+    console.log("Unfollowed", id);
   };
 
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={
-          <Avatar
-            className={classes.avatar}
-            src={"https://picsum.photos/400/400?random=1"}
-          />
-        }
+        avatar={<Avatar className={classes.avatar} src={url} />}
         className={classes.cardHeader}
       />
       <CardContent>
@@ -65,10 +60,10 @@ const PersonCard = ({ connected = false }) => {
           align="center"
           component="h2"
         >
-          Emma Kaya Matte
+          {heading}
         </Typography>
         <Typography variant="h5" align="center" component="h2">
-          CEO & Founder of InceTec
+          {subHeading}
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
@@ -77,7 +72,7 @@ const PersonCard = ({ connected = false }) => {
             size="large"
             color="primary"
             variant="contained"
-            onClick={handleUnfollow}
+            onClick={() => handleUnfollow(id)}
           >
             Unfollow
           </Button>
@@ -87,7 +82,7 @@ const PersonCard = ({ connected = false }) => {
             color="primary"
             variant="contained"
             startIcon={<PublicIcon fontSize="small" />}
-            onClick={handleConnect}
+            onClick={() => handleConnect(id)}
           >
             Connect
           </Button>

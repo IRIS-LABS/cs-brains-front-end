@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-const PersonCardGroup = () => {
+const PersonCardGroup = ({ cardList }) => {
   const classes = useStyles();
 
   return (
@@ -19,38 +19,33 @@ const PersonCardGroup = () => {
       <Grid
         className={classes.root}
         container
+        item
         xs={12}
         md={10}
         justifyContent="center"
         spacing={2}
       >
-        <Grid justifyContent="center" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <PersonCard />
-        </Grid>
-        <Grid justifyContent="center" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <PersonCard />
-        </Grid>
-        <Grid justifyContent="center" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <PersonCard />
-        </Grid>
-        <Grid justifyContent="center" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <PersonCard />
-        </Grid>
-        <Grid justifyContent="center" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <PersonCard />
-        </Grid>
-        <Grid justifyContent="center" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <PersonCard />
-        </Grid>
-        <Grid justifyContent="center" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <PersonCard />
-        </Grid>
-        <Grid justifyContent="center" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <PersonCard />
-        </Grid>
-        <Grid justifyContent="center" item xs={12} sm={6} md={4} lg={3} xl={2}>
-          <PersonCard />
-        </Grid>
+        {cardList.map((e) => (
+          <Grid
+            container
+            key={e.id}
+            justifyContent="center"
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+          >
+            <PersonCard
+              connected={e.connected}
+              id={e.id}
+              heading={e.heading}
+              subHeading={e.subHeading}
+              url={e.url}
+            />
+          </Grid>
+        ))}
       </Grid>
     </div>
   );

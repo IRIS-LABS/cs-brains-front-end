@@ -1,87 +1,87 @@
-import { Grid, Link, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
+import MyCard from "../../components/Cards/MyCard";
+import { Grid, makeStyles } from "@material-ui/core";
 import PersonCardGroup from "../../components/Cards/PersonCardGroup";
-import Search from "../../components/common/Search";
 
 const useStyles = makeStyles((theme) => ({
-  header: { padding: theme.spacing(5) },
-  searchBox: {
-    padding: theme.spacing(5),
-    paddingTop: "0",
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    padding: 10,
   },
-  seeMoreBtn: {
-    padding: theme.spacing(3),
+  myCardRoot: {
+    marginTop: 8,
   },
 }));
 
-const Cards = () => {
+const Search = () => {
   const classes = useStyles();
   const cardList = [
     {
       id: 1,
-      connected: true,
+      connected: false,
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 2,
-      connected: true,
+      connected: false,
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 3,
-      connected: true,
+      connected: false,
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 4,
-      connected: true,
+      connected: false,
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 5,
-      connected: true,
+      connected: false,
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 6,
-      connected: true,
+      connected: false,
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 7,
-      connected: true,
+      connected: false,
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 8,
-      connected: true,
+      connected: false,
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 9,
-      connected: true,
+      connected: false,
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
-      connected: true,
+      connected: false,
       id: 10,
 
       heading: "Emma Kaya Matte",
@@ -91,21 +91,18 @@ const Cards = () => {
   ];
 
   return (
-    <>
-      <Grid container justifyContent="center" className={classes.header}>
-        <Typography variant="h5">Card List</Typography>
+    <Grid container className={classes.root}>
+      <Grid item lg="3" className={classes.myCardRoot}>
+        <MyCard
+          heading="Emma Kaya Matte"
+          subHeading="CEO & Founder of InceTec"
+        />
       </Grid>
-      <Grid container justifyContent="center" className={classes.searchBox}>
-        <Search />
+      <Grid item lg="9">
+        <PersonCardGroup cardList={cardList} expandAll />
       </Grid>
-      <PersonCardGroup cardList={cardList} />
-      <Grid container justifyContent="center" className={classes.seeMoreBtn}>
-        <Link component="button" variant="body1">
-          See More
-        </Link>
-      </Grid>
-    </>
+    </Grid>
   );
 };
 
-export default Cards;
+export default Search;

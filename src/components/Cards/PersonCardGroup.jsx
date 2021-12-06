@@ -7,11 +7,11 @@ const useStyles = makeStyles({
   root: {
     display: "flex",
     justifyContent: "center",
-    padding: 8,
+    padding: 5,
   },
 });
 
-const PersonCardGroup = ({ cardList }) => {
+const PersonCardGroup = ({ cardList, expandAll }) => {
   const classes = useStyles();
 
   return (
@@ -21,9 +21,9 @@ const PersonCardGroup = ({ cardList }) => {
         container
         item
         xs={12}
-        md={10}
+        md={!expandAll ? 10 : 12}
         justifyContent="center"
-        spacing={2}
+        spacing={1}
       >
         {cardList.map((e) => (
           <Grid

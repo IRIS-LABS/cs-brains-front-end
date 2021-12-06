@@ -12,7 +12,7 @@ const Register = () => {
             justifyContent="center"
             style={{ minHeight: '100vh'}}
         >
-            <Grid container item justifyContent = "center" xs={12}>
+            <Grid container item justifyContent = "center" xs={12} md={5}>
                 <RegisterBox/> 
             </Grid>
                      

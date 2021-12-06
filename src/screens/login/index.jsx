@@ -13,7 +13,7 @@ const Login = () => {
             justifyContent="center"
             style={{ minHeight: '100vh'}}
         >
-            <Grid container justifyContent = "center" xs={12}>
+            <Grid container justifyContent = "center" xs={12} md={5}>
                 <LoginBox/> 
             </Grid>
                      

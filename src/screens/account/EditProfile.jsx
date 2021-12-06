@@ -22,7 +22,8 @@ const useStyles = makeStyles({
 const validationSchema = Yup.object().shape({
     name: Yup.string()
              .required("This field is required"),
-   
+    email: Yup.string()
+              .required("This field is required")
 });
 
 
@@ -31,6 +32,7 @@ const EditProfile = () => {
     const formik = useFormik({
         initialValues: {
             name: "",
+            email: ""
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -53,6 +55,16 @@ const EditProfile = () => {
                             helperText = {formik.touched.name && formik.errors.name}
                             onChange = {formik.handleChange}
                             error = {formik.touched.name && Boolean(formik.errors.name)}
+                        />
+                        <MyTextField
+                            id = 'email'
+                            name = 'email'
+                            label = "Email"
+                            type = "email"
+                            value = {formik.values.email}
+                            helperText = {formik.touched.email && formik.errors.email}
+                            onChange = {formik.handleChange}
+                            error = {formik.touched.email && Boolean(formik.errors.email)}
                         />
                         <Button
                             type = 'submit'

@@ -35,7 +35,7 @@ const useStyles = makeStyles({
         height: "2rem"
     },
     loginBox: {
-        width: "30%",
+        width: "100%",
         padding: "3rem",
         borderRadius: 20,
         boxShadow: "0 0 10px grey",

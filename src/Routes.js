@@ -8,11 +8,12 @@ import Cards from "./screens/cards";
 import CardsSearch from "./screens/cards/search";
 import Account from "./screens/account";
 import Header from "./components/header";
+import Footer from "./components/footer";
 
 const AppRouter = () => {
   return (
     <>
-      <Header/>
+      <Header />
       <Switch>
         <Route exact path="/signin" render={(props) => <Login {...props} />} />
         <Route
@@ -24,6 +25,7 @@ const AppRouter = () => {
         <ProtectedRoute exact path="/account" component={Account} />
         <ProtectedRoute exact path="/" component={CardsSearch} />
       </Switch>
+      <Footer />
     </>
   );
 };

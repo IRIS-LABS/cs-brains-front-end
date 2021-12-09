@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.main,
     textDecoration: "none"
   },
+  linkMobileText: {
+    marginLeft: 4
+  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -143,22 +146,44 @@ export default function Header() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-            <HomeIcon/>
-        </IconButton>
-        <p>Profile</p>
+        <Link to = '/' className = {classes.link}>
+          <IconButton>
+              <HomeIcon/>
+              <p className = {classes.linkMobileText}>Home</p>
+          </IconButton> 
+        </Link>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-            <PeopleIcon/>
-        </IconButton>
-        <p>Cards</p>
+        <Link to = '/cards' className = {classes.link}>
+          <IconButton>
+              <PeopleIcon/>
+              <p className = {classes.linkMobileText}>Cards</p>
+          </IconButton>  
+        </Link>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-            <LogoutIcon/>
-        </IconButton>
-        <p>Sign out</p>
+        <Link to = '/signup' className = {classes.link}>
+          <IconButton>
+              <PersonAddIcon/>
+              <p className = {classes.linkMobileText}>Sign up</p>
+          </IconButton>  
+        </Link>
+      </MenuItem>
+      <MenuItem>
+        <Link to = '/signin' className = {classes.link}>
+          <IconButton>
+              <ArrowRightAltIcon/>
+              <p className = {classes.linkMobileText}>Sign in</p>
+          </IconButton>  
+        </Link>
+      </MenuItem>
+      <MenuItem>
+        <Link to = '/signin' className = {classes.link}>
+          <IconButton>
+              <LogoutIcon/>
+              <p className = {classes.linkMobileText}>Sign out</p>
+          </IconButton> 
+        </Link>
       </MenuItem>
     </Menu>
   );

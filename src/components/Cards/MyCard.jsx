@@ -13,6 +13,7 @@ import {
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import EditIcon from "@material-ui/icons/Edit";
 import LockIcon from "@material-ui/icons/Lock";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: 100,
     height: 100,
+  },
+  link: {
+    color: theme.palette.primary.main,
+    textDecoration: "none"
   },
   title: {
     fontWeight: "bold",
@@ -70,26 +75,33 @@ const MyCard = ({ heading, subHeading, url, id }) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button
-          color="primary"
-          className={classes.button}
-          startIcon={<AssignmentIcon className={classes.buttonIcon} />}
-        >
-          Card List
-        </Button>
+          <Button
+            color="primary"
+            className={classes.button}
+            startIcon={<AssignmentIcon className={classes.buttonIcon} />}
+          >
+            <Link to = 'cards' className = {classes.link}>
+                Card List
+            </Link>
+          </Button>
         <Button
           color="primary"
           className={classes.button}
           startIcon={<EditIcon className={classes.buttonIcon} />}
         >
-          Edit
+          <Link to = 'editProfile' className = {classes.link}>
+            Edit
+          </Link>
+          
         </Button>
         <Button
           color="primary"
           className={classes.button}
           startIcon={<LockIcon className={classes.buttonIcon} />}
         >
-          Sign Out
+          <Link to = 'signin' className = {classes.link}>
+            Sign Out
+          </Link>
         </Button>
       </CardActions>
     </Card>

@@ -158,7 +158,7 @@ const LoginBox = () => {
                                 <span className = {classes.accountText}>Don't have an account?</span>
                             </Grid>
                             <Grid container item sm = {4} justifyContent = 'flex-start'>
-                                <Link to = '/register'>Sign up</Link>
+                                <Link to = '/signup'>Sign up</Link>
                             </Grid>
                         </Grid>
                     </Grid>

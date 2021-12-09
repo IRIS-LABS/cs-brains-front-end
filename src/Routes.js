@@ -22,7 +22,7 @@ const AppRouter = () => {
           render={(props) => <Register {...props} />}
         />
         <ProtectedRoute exact path="/cards" component={Cards} />
-        <ProtectedRoute exact path="/account" component={Account} />
+        <ProtectedRoute exact path="/editProfile" component={Account} />
         <ProtectedRoute exact path="/" component={CardsSearch} />
       </Switch>
       <Footer />

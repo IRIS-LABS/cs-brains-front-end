@@ -17,6 +17,9 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 const useStyles = makeStyles((theme) => ({
+  appBar: {
+    backgroundColor: theme.palette.primary.main
+  },
   grow: {
     flexGrow: 1,
   },
@@ -62,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    color: theme.palette.primary,
+    color: theme.palette.primary.main,
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
@@ -162,7 +165,7 @@ export default function Header() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" className = {classes.appBar}>
         <Toolbar>
           <Typography className={classes.title} variant="h4" noWrap>
             S
@@ -205,7 +208,7 @@ export default function Header() {
                   <p className = {classes.navText}>Sign in</p>
               </IconButton>
             </Link>
-            <Link to = '/signout' className = {classes.link}>
+            <Link to = '/signin' className = {classes.link}>
               <IconButton color="inherit">
                   <LogoutIcon/>
                   <p className = {classes.navText}>Sign out</p>

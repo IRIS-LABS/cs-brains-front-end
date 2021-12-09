@@ -168,7 +168,7 @@ const RegisterBox = () => {
                                     <span className = {classes.accountText}>Already have an account?</span>
                                 </Grid>
                                 <Grid container item sm = {4} justifyContent = 'flex-start'>
-                                    <Link to = '/login'>Sign in</Link>
+                                    <Link to = '/signin'>Sign in</Link>
                                 </Grid>
                             </Grid>
                             

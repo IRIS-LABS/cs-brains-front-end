@@ -17,7 +17,8 @@ export const logout = () => {
 export const getUser = () => {
   try {
     const encryptedText = localStorage.getItem("_UAD_");
-    const data = JSON.parse(encryptedText);
+    const decryptedText = crypto.decrypt(encryptedText);
+    const data = JSON.parse(decryptedText);
     if (data.isAuthenticated && data.user) {
       return data;
     } else {

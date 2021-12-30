@@ -8,6 +8,7 @@ import gmailLogo from "./../../assets/gmail-logo.svg";
 import api from "../../helpers/api";
 import { AlertContext } from "../../Routes";
 import { useHistory } from "react-router-dom";
+import { login, getUser } from "../../auth";
 
 const useStyles = makeStyles({
   accountContainer: {
@@ -87,9 +88,11 @@ const RegisterBox = () => {
 
       api.auth.register(data).then((res) => {
         if (res.type === "success") {
+          console.log(res);
           setAlertMsg(res.msg);
           setAlertType("success");
           setAlertOpen(true);
+          login(res.data);
           history.push("/editProfile");
         } else {
           setAlertMsg(res.msg);

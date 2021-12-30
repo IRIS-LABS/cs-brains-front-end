@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles, Grid, Button } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import MyTextField from "../../components/common/MyTextField";
 import gmailLogo from "./../../assets/gmail-logo.svg";
+import api from "../../helpers/api";
+import { AlertContext } from "../../Routes";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   accountContainer: {
@@ -66,6 +69,8 @@ const validationSchema = Yup.object({
 
 const RegisterBox = () => {
   const classes = useStyles();
+  const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -77,7 +82,22 @@ const RegisterBox = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      const data = { ...values };
+      delete data["confirmPassword"];
+
+      api.auth.register(data).then((res) => {
+        console.log(res);
+        if (res.type === "success") {
+          setAlertMsg(res.msg);
+          setAlertType("success");
+          setAlertOpen(true);
+          history.push("/editProfile");
+        } else {
+          setAlertMsg(res.msg);
+          setAlertType("error");
+          setAlertOpen(true);
+        }
+      });
     },
   });
 

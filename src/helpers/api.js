@@ -7,12 +7,15 @@ const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 axios.defaults.baseURL = BASE_URL;
 
 const ajaxHandler = async (axiosCall) => {
-  console.log(BASE_URL);
   try {
     const response = await axiosCall;
     return Promise.resolve(response.data);
   } catch (error) {
     if (error.response) {
+      if (error.response.status === 401) {
+        localStorage.removeItem("_UAD_");
+        window.location = "/";
+      }
       return Promise.resolve(error.response.data);
     } else {
       return Promise.resolve({

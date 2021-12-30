@@ -86,7 +86,6 @@ const RegisterBox = () => {
       delete data["confirmPassword"];
 
       api.auth.register(data).then((res) => {
-        console.log(res);
         if (res.type === "success") {
           setAlertMsg(res.msg);
           setAlertType("success");

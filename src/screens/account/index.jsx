@@ -10,7 +10,7 @@ const Account = () => {
             justifyContent="center"
             style={{ minHeight: '100vh'}}
         >
-        <Grid container item justifyContent = "center" xs={4}>
+        <Grid container item justifyContent = "center" xs={12} md={5}>
             <EditProfile/>
         </Grid>            
     </Grid>

@@ -11,6 +11,11 @@ const useStyles = makeStyles({
         marginTop: "1rem",
         marginBottom: "0.5rem"
     },
+    editProfileBox: {
+        width: "100%",
+        padding: 10,
+        justifyContent: "center"
+    },
     title: {
         fontWeight: 'bold',
         fontSize: '2rem',
@@ -41,10 +46,12 @@ const EditProfile = () => {
     });
 
     return(
-        <>
-            <div className = {classes.title}>Edit Profile</div>
+        <div className = {classes.editProfileBox}>
+            
             <Grid container justifyContent = 'center'>
+                <div className = {classes.title}>Edit Profile</div>
                 <Grid item xs = {12}>
+                    
                     <form onSubmit = {formik.handleSubmit}>
                         <MyTextField
                             id = 'name'
@@ -76,7 +83,7 @@ const EditProfile = () => {
                     </form>
                 </Grid>
             </Grid>
-        </>
+        </div>
     );
 };
 

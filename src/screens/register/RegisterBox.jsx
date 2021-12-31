@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import MyTextField from "../../components/common/MyTextField";
 import gmailLogo from "./../../assets/gmail-logo.svg";
-import api from "../../helpers/api";
+import api, { urls } from "../../helpers/api";
 import { AlertContext } from "../../Routes";
 import { useHistory } from "react-router-dom";
 import { login } from "../../auth";
@@ -208,7 +208,12 @@ const RegisterBox = () => {
             </Grid>
             <Grid container alignItems="center">
               <Grid container item xs={3} justifyContent="center">
-                <Link to="/google-signin">
+                <Link
+                  onClick={() => {
+                    window.location = urls.auth.google;
+                  }}
+                  to="#"
+                >
                   <img
                     src={gmailLogo}
                     alt="Gmail Logo"
@@ -217,7 +222,12 @@ const RegisterBox = () => {
                 </Link>
               </Grid>
               <Grid container item xs={9} justifyContent="flex-start">
-                <Link to="/google-signin">
+                <Link
+                  onClick={() => {
+                    window.location = urls.auth.google;
+                  }}
+                  to="#"
+                >
                   <span className={classes.googleSignupText}>
                     Sign up with Google
                   </span>

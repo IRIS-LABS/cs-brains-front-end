@@ -36,6 +36,12 @@ const api = {
       ajaxHandler(
         axios.post("/api/auth/sign-in", data, { withCredentials: true })
       ),
+    thirdParty: (data) =>
+      ajaxHandler(
+        axios.get(`/api/auth/third-party/verify?token=${data}`, {
+          withCredentials: true,
+        })
+      ),
   },
   user: {},
 };

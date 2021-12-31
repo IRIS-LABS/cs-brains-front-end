@@ -8,7 +8,7 @@ import gmailLogo from "./../../assets/gmail-logo.svg";
 import { useHistory } from "react-router-dom";
 import { login } from "../../auth";
 import LocalButton from "../../components/common/LocalButton";
-import api from "../../helpers/api";
+import api, { urls } from "../../helpers/api";
 import { AlertContext } from "../../Routes";
 
 const useStyles = makeStyles({
@@ -124,15 +124,6 @@ const LoginBox = () => {
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
             />
-            {/* <Grid container item xs={12}>
-              <Checkbox
-                color="primary"
-                className={classes.checkbox}
-                value={rememberMeChecked}
-                onChange={() => setRememberMeChecked(!rememberMeChecked)}
-              />
-              <span className={classes.rememberMeText}>Remember Me</span>
-            </Grid> */}
 
             <LocalButton
               type="submit"
@@ -179,7 +170,12 @@ const LoginBox = () => {
           </Grid>
           <Grid container alignItems="center">
             <Grid container item xs={3} justifyContent="center">
-              <Link to="/google-signin">
+              <Link
+                onClick={() => {
+                  window.location = urls.auth.google;
+                }}
+                to="#"
+              >
                 <img
                   src={gmailLogo}
                   alt="Gmail Logo"
@@ -188,7 +184,12 @@ const LoginBox = () => {
               </Link>
             </Grid>
             <Grid container item xs={9} justifyContent="flex-start">
-              <Link to="/google-signin">
+              <Link
+                onClick={() => {
+                  window.location = urls.auth.google;
+                }}
+                to="#"
+              >
                 <span className={classes.googleSigninText}>
                   Sign in with Google
                 </span>

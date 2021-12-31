@@ -9,6 +9,7 @@ import Account from "./screens/account";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Alert from "./components/common/Alert";
+import Verify from "./screens/thirdPartyAuth/verify";
 
 export const AlertContext = createContext(null);
 
@@ -35,6 +36,11 @@ const AppRouter = () => {
           exact
           path="/signup"
           render={(props) => <Register {...props} />}
+        />
+        <Route
+          exact
+          path="/google/verify/:token"
+          render={(props) => <Verify {...props} />}
         />
         <ProtectedRoute exact path="/cards" component={Cards} />
         <ProtectedRoute exact path="/editProfile" component={Account} />

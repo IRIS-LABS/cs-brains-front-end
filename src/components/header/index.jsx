@@ -1,67 +1,67 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { alpha, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import HomeIcon from '@material-ui/icons/Home'; 
-import PeopleIcon from '@material-ui/icons/People'; 
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-import LogoutIcon from '@material-ui/icons/ExitToApp';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import React from "react";
+import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import InputBase from "@material-ui/core/InputBase";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import SearchIcon from "@material-ui/icons/Search";
+import HomeIcon from "@material-ui/icons/Home";
+import PeopleIcon from "@material-ui/icons/People";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import LogoutIcon from "@material-ui/icons/ExitToApp";
+import MoreIcon from "@material-ui/icons/MoreVert";
+import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   grow: {
     flexGrow: 1,
   },
   link: {
     color: theme.palette.secondary.main,
-    textDecoration: "none"
+    textDecoration: "none",
   },
   linkMobileText: {
-    marginLeft: 4
+    marginLeft: 4,
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
     },
   },
   search: {
     flexGrow: 1,
-    position: 'relative',
+    position: "relative",
     justifyContent: "center",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: "#fff",
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
-      width: 'auto',
+      width: "auto",
     },
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: theme.palette.primary.main
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: theme.palette.primary.main,
   },
   inputRoot: {
     color: theme.palette.primary,
@@ -71,27 +71,27 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '80%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "80%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
   navText: {
     marginLeft: 10,
     height: "100%",
-    fontSize: 20
+    fontSize: 20,
   },
   sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
     },
   },
   sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
     },
   },
 }));
@@ -103,7 +103,6 @@ export default function Header() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -118,14 +117,14 @@ export default function Header() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
@@ -134,55 +133,55 @@ export default function Header() {
     </Menu>
   );
 
-  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={mobileMenuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <Link to = '/' className = {classes.link}>
+        <Link to="/" className={classes.link}>
           <IconButton>
-              <HomeIcon/>
-              <p className = {classes.linkMobileText}>Home</p>
-          </IconButton> 
+            <HomeIcon />
+            <p className={classes.linkMobileText}>Home</p>
+          </IconButton>
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to = '/cards' className = {classes.link}>
+        <Link to="/cards" className={classes.link}>
           <IconButton>
-              <PeopleIcon/>
-              <p className = {classes.linkMobileText}>Cards</p>
-          </IconButton>  
+            <PeopleIcon />
+            <p className={classes.linkMobileText}>Cards</p>
+          </IconButton>
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to = '/signup' className = {classes.link}>
+        <Link to="/signup" className={classes.link}>
           <IconButton>
-              <PersonAddIcon/>
-              <p className = {classes.linkMobileText}>Sign up</p>
-          </IconButton>  
+            <PersonAddIcon />
+            <p className={classes.linkMobileText}>Sign up</p>
+          </IconButton>
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to = '/signin' className = {classes.link}>
+        <Link to="/signin" className={classes.link}>
           <IconButton>
-              <ArrowRightAltIcon/>
-              <p className = {classes.linkMobileText}>Sign in</p>
-          </IconButton>  
+            <ArrowRightAltIcon />
+            <p className={classes.linkMobileText}>Sign in</p>
+          </IconButton>
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to = '/signin' className = {classes.link}>
+        <Link to="/signin" className={classes.link}>
           <IconButton>
-              <LogoutIcon/>
-              <p className = {classes.linkMobileText}>Sign out</p>
-          </IconButton> 
+            <LogoutIcon />
+            <p className={classes.linkMobileText}>Sign out</p>
+          </IconButton>
         </Link>
       </MenuItem>
     </Menu>
@@ -190,7 +189,7 @@ export default function Header() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" className = {classes.appBar}>
+      <AppBar position="static" className={classes.appBar}>
         <Toolbar>
           <Typography className={classes.title} variant="h4" noWrap>
             S
@@ -205,38 +204,38 @@ export default function Header() {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{ "aria-label": "search" }}
             />
           </div>
           <div className={classes.sectionDesktop}>
-            <Link to = "/" className = {classes.link}>
+            <Link to="/" className={classes.link}>
               <IconButton color="inherit">
-                  <HomeIcon/>
-                  <p className = {classes.navText}>Home</p>
+                <HomeIcon />
+                <p className={classes.navText}>Home</p>
               </IconButton>
             </Link>
-            <Link to = '/cards' className = {classes.link}>
-              <IconButton color="inherit" className = {classes.link}>
-                  <PeopleIcon/>
-                  <p className = {classes.navText}>Cards</p>
+            <Link to="/cards" className={classes.link}>
+              <IconButton color="inherit" className={classes.link}>
+                <PeopleIcon />
+                <p className={classes.navText}>Cards</p>
               </IconButton>
             </Link>
-            <Link to = '/signup' className = {classes.link}>
+            <Link to="/signup" className={classes.link}>
               <IconButton color="inherit">
-                  <PersonAddIcon/>
-                  <p className = {classes.navText}>Sign up</p>
+                <PersonAddIcon />
+                <p className={classes.navText}>Sign up</p>
               </IconButton>
             </Link>
-            <Link to = '/signin' className = {classes.link}>
+            <Link to="/signin" className={classes.link}>
               <IconButton color="inherit">
-                  <ArrowRightAltIcon/>
-                  <p className = {classes.navText}>Sign in</p>
+                <ArrowRightAltIcon />
+                <p className={classes.navText}>Sign in</p>
               </IconButton>
             </Link>
-            <Link to = '/signin' className = {classes.link}>
+            <Link to="/signin" className={classes.link}>
               <IconButton color="inherit">
-                  <LogoutIcon/>
-                  <p className = {classes.navText}>Sign out</p>
+                <LogoutIcon />
+                <p className={classes.navText}>Sign out</p>
               </IconButton>
             </Link>
           </div>

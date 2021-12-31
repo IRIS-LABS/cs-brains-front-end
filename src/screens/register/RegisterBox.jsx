@@ -1,14 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { makeStyles, Grid, Button } from "@material-ui/core";
+import { makeStyles, Grid } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import MyTextField from "../../components/common/MyTextField";
 import gmailLogo from "./../../assets/gmail-logo.svg";
-import api from "../../helpers/api";
+import api, { urls } from "../../helpers/api";
 import { AlertContext } from "../../Routes";
 import { useHistory } from "react-router-dom";
-import { login, getUser } from "../../auth";
+import { login } from "../../auth";
+import LocalButton from "../../components/common/LocalButton";
 
 const useStyles = makeStyles({
   accountContainer: {
@@ -72,6 +73,7 @@ const RegisterBox = () => {
   const classes = useStyles();
   const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -83,12 +85,12 @@ const RegisterBox = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      setLoading(true);
       const data = { ...values };
       delete data["confirmPassword"];
 
       api.auth.register(data).then((res) => {
         if (res.type === "success") {
-          console.log(res);
           setAlertMsg(res.msg);
           setAlertType("success");
           setAlertOpen(true);
@@ -99,6 +101,7 @@ const RegisterBox = () => {
           setAlertType("error");
           setAlertOpen(true);
         }
+        setLoading(false);
       });
     },
   });
@@ -167,14 +170,15 @@ const RegisterBox = () => {
               }
             />
 
-            <Button
+            <LocalButton
               type="submit"
               className={classes.button}
               variant="contained"
               color="primary"
+              loading={loading}
             >
               Sign up
-            </Button>
+            </LocalButton>
           </form>
 
           <Grid container alignItems="center" justifyContent="center">
@@ -204,7 +208,12 @@ const RegisterBox = () => {
             </Grid>
             <Grid container alignItems="center">
               <Grid container item xs={3} justifyContent="center">
-                <Link to="/google-signin">
+                <Link
+                  onClick={() => {
+                    window.location = urls.auth.google;
+                  }}
+                  to="#"
+                >
                   <img
                     src={gmailLogo}
                     alt="Gmail Logo"
@@ -213,7 +222,12 @@ const RegisterBox = () => {
                 </Link>
               </Grid>
               <Grid container item xs={9} justifyContent="flex-start">
-                <Link to="/google-signin">
+                <Link
+                  onClick={() => {
+                    window.location = urls.auth.google;
+                  }}
+                  to="#"
+                >
                   <span className={classes.googleSignupText}>
                     Sign up with Google
                   </span>

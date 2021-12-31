@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -15,6 +15,10 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import api from "../../helpers/api";
+import { logout } from "../../auth";
+import { useHistory } from "react-router-dom";
+import { AlertContext } from "../../Routes";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -100,9 +104,27 @@ export default function Header() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const history = useHistory();
+  const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleLogout = () => {
+    api.auth.logout().then((res) => {
+      if (res.type === "success") {
+        setAlertMsg(res.msg);
+        setAlertType("success");
+        setAlertOpen(true);
+        logout();
+        history.push("/signin");
+      } else {
+        setAlertMsg(res.msg);
+        setAlertType("error");
+        setAlertOpen(true);
+      }
+    });
+  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -177,8 +199,8 @@ export default function Header() {
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to="/signin" className={classes.link}>
-          <IconButton>
+        <Link to="#" className={classes.link}>
+          <IconButton onClick={handleLogout}>
             <LogoutIcon />
             <p className={classes.linkMobileText}>Sign out</p>
           </IconButton>
@@ -232,8 +254,8 @@ export default function Header() {
                 <p className={classes.navText}>Sign in</p>
               </IconButton>
             </Link>
-            <Link to="/signin" className={classes.link}>
-              <IconButton color="inherit">
+            <Link to="#" className={classes.link}>
+              <IconButton onClick={handleLogout} color="inherit">
                 <LogoutIcon />
                 <p className={classes.navText}>Sign out</p>
               </IconButton>

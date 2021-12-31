@@ -42,6 +42,8 @@ const api = {
           withCredentials: true,
         })
       ),
+    logout: () =>
+      ajaxHandler(axios.get("/api/auth/sign-out", { withCredentials: true })),
   },
   user: {},
 };

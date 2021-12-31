@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
-import { Switch, Route } from "react-router-dom";
-import ProtectedRoute from "./components/common/ProtectedRoute";
+import { Switch } from "react-router-dom";
+import RouteWrapper from "./components/common/RouteWrapper";
 import Login from "./screens/login";
 import Register from "./screens/register";
 import Cards from "./screens/cards";
@@ -31,20 +31,17 @@ const AppRouter = () => {
     >
       <Header />
       <Switch>
-        <Route exact path="/signin" render={(props) => <Login {...props} />} />
-        <Route
+        <RouteWrapper exact path="/signin" component={Login} />
+        <RouteWrapper exact path="/signup" component={Register} />
+        <RouteWrapper exact path="/google/verify/:token" component={Verify} />
+        <RouteWrapper protect={true} exact path="/cards" component={Cards} />
+        <RouteWrapper
+          protect={true}
           exact
-          path="/signup"
-          render={(props) => <Register {...props} />}
+          path="/editProfile"
+          component={Account}
         />
-        <Route
-          exact
-          path="/google/verify/:token"
-          render={(props) => <Verify {...props} />}
-        />
-        <ProtectedRoute exact path="/cards" component={Cards} />
-        <ProtectedRoute exact path="/editProfile" component={Account} />
-        <ProtectedRoute exact path="/" component={CardsSearch} />
+        <RouteWrapper protect={true} exact path="/" component={CardsSearch} />
       </Switch>
       <Footer />
       <Alert />

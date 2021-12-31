@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { makeStyles, Grid } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -71,6 +71,7 @@ const LoginBox = () => {
   const classes = useStyles();
   const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
   const history = useHistory();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -87,7 +88,11 @@ const LoginBox = () => {
           setAlertType("success");
           setAlertOpen(true);
           login(res.data);
-          history.push("/");
+          if (location.state.from) {
+            history.push(location.state.from);
+          } else {
+            history.push("/");
+          }
         } else {
           setAlertMsg(res.msg);
           setAlertType("error");

@@ -8,7 +8,8 @@ import gmailLogo from "./../../assets/gmail-logo.svg";
 import api from "../../helpers/api";
 import { AlertContext } from "../../Routes";
 import { useHistory } from "react-router-dom";
-import { login, getUser } from "../../auth";
+import { login } from "../../auth";
+import LocalButton from "../../components/common/LocalButton";
 
 const useStyles = makeStyles({
   accountContainer: {
@@ -167,14 +168,15 @@ const RegisterBox = () => {
               }
             />
 
-            <Button
+            <LocalButton
               type="submit"
               className={classes.button}
               variant="contained"
               color="primary"
+              loading={true}
             >
               Sign up
-            </Button>
+            </LocalButton>
           </form>
 
           <Grid container alignItems="center" justifyContent="center">

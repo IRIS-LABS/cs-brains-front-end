@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { makeStyles, Checkbox, Grid, Button } from "@material-ui/core";
+import { makeStyles, Grid } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import MyTextField from "../../components/common/MyTextField";
 import gmailLogo from "./../../assets/gmail-logo.svg";
-import crypto from "../../helpers/cryptography";
+import { useHistory } from "react-router-dom";
+import { login } from "../../auth";
+import LocalButton from "../../components/common/LocalButton";
+import api from "../../helpers/api";
+import { AlertContext } from "../../Routes";
 
 const useStyles = makeStyles({
   accountContainer: {
@@ -65,7 +69,9 @@ const validationSchema = Yup.object().shape({
 
 const LoginBox = () => {
   const classes = useStyles();
-  const [rememberMeChecked, setRememberMeChecked] = useState(false);
+  const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -74,7 +80,21 @@ const LoginBox = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      setLoading(true);
+      api.auth.login(values).then((res) => {
+        if (res.type === "success") {
+          setAlertMsg(res.msg);
+          setAlertType("success");
+          setAlertOpen(true);
+          login(res.data);
+          history.push("/");
+        } else {
+          setAlertMsg(res.msg);
+          setAlertType("error");
+          setAlertOpen(true);
+        }
+        setLoading(false);
+      });
     },
   });
 
@@ -104,7 +124,7 @@ const LoginBox = () => {
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
             />
-            <Grid container item xs={12}>
+            {/* <Grid container item xs={12}>
               <Checkbox
                 color="primary"
                 className={classes.checkbox}
@@ -112,23 +132,24 @@ const LoginBox = () => {
                 onChange={() => setRememberMeChecked(!rememberMeChecked)}
               />
               <span className={classes.rememberMeText}>Remember Me</span>
-            </Grid>
+            </Grid> */}
 
-            <Button
+            <LocalButton
               type="submit"
               className={classes.button}
               variant="contained"
               color="primary"
+              loading={loading}
             >
               Sign in
-            </Button>
+            </LocalButton>
           </form>
-          <Grid container spacing={1} justifyContent="center">
+          {/* <Grid container spacing={1} justifyContent="center">
             <Link to="/forgot-password" className={classes.forgotPassword}>
               Forgot your password?
             </Link>
-            {/* <span className = {classes.forgotPassword}>Forgot your password?</span> */}
-          </Grid>
+            <span className = {classes.forgotPassword}>Forgot your password?</span>
+          </Grid> */}
 
           <Grid container alignItems="center" justifyContent="center">
             <Grid container item xs={5}>

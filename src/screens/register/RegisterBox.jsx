@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { makeStyles, Grid, Button } from "@material-ui/core";
+import { makeStyles, Grid } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import MyTextField from "../../components/common/MyTextField";
@@ -73,6 +73,7 @@ const RegisterBox = () => {
   const classes = useStyles();
   const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -84,12 +85,12 @@ const RegisterBox = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      setLoading(true);
       const data = { ...values };
       delete data["confirmPassword"];
 
       api.auth.register(data).then((res) => {
         if (res.type === "success") {
-          console.log(res);
           setAlertMsg(res.msg);
           setAlertType("success");
           setAlertOpen(true);
@@ -100,6 +101,7 @@ const RegisterBox = () => {
           setAlertType("error");
           setAlertOpen(true);
         }
+        setLoading(false);
       });
     },
   });
@@ -173,7 +175,7 @@ const RegisterBox = () => {
               className={classes.button}
               variant="contained"
               color="primary"
-              loading={true}
+              loading={loading}
             >
               Sign up
             </LocalButton>

@@ -14,7 +14,7 @@ const ajaxHandler = async (axiosCall) => {
     if (error.response) {
       if (error.response.status === 401) {
         localStorage.removeItem("_UAD_");
-        window.location = "/";
+        window.location = "/signin";
       }
       return Promise.resolve(error.response.data);
     } else {
@@ -32,22 +32,10 @@ const api = {
       ajaxHandler(
         axios.post("/api/auth/sign-up", data, { withCredentials: true })
       ),
-    // login: (data) =>
-    //   ajaxHandler(
-    //     axios.post("/api/auth/login", data, { withCredentials: true })
-    //   ),
-    // logout: () =>
-    //   ajaxHandler(axios.get("/api/auth/logout", { withCredentials: true })),
-    // checkAuth: () =>
-    //   ajaxHandler(axios.get("/api/auth/check-auth", { withCredentials: true })),
-    // setRole: (userType) =>
-    //   ajaxHandler(
-    //     axios.patch(
-    //       "/api/auth/third-party/set-role",
-    //       { role: userType },
-    //       { withCredentials: true }
-    //     )
-    //   ),
+    login: (data) =>
+      ajaxHandler(
+        axios.post("/api/auth/sign-in", data, { withCredentials: true })
+      ),
   },
   user: {},
 };

@@ -44,6 +44,9 @@ const api = {
       ),
     logout: () =>
       ajaxHandler(axios.get("/api/auth/sign-out", { withCredentials: true })),
+    editProfile: (data) =>
+      ajaxHandler(
+        axios.post("/api/auth/update-profile", data, { withCredentials: true }))
   },
   user: {},
 };

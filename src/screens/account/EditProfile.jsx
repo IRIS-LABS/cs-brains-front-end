@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Box, Grid, Button, Modal, makeStyles } from '@material-ui/core';
 import MyTextField from '../../components/common/MyTextField';
 import MuiPhoneNumber from 'mui-phone-number';
@@ -6,6 +6,9 @@ import { useFormik } from 'formik';
 import avatar from "../../assets/default-avatar.svg";
 import * as Yup from 'yup';
 import MyAvatarUploader from '../../components/common/MyAvatarUploader';
+import LocalButton from "../../components/common/LocalButton";
+import api from '../../helpers/api';
+import { AlertContext } from "../../Routes";
 
 
 const useStyles = makeStyles({
@@ -57,10 +60,12 @@ const useStyles = makeStyles({
 const validationSchema = Yup.object().shape({
     firstName: Yup.string()
         .trim()
-        .matches(/^[a-z A-Z]+$/, "english character (a-z, A-Z)"),
+        .matches(/^[a-z A-Z]+$/, "english character (a-z, A-Z)")
+        .required("This field is required..."),
     lastName: Yup.string()
         .trim()
-        .matches(/^[a-z A-Z]+$/, "english character (a-z, A-Z)"),
+        .matches(/^[a-z A-Z]+$/, "english character (a-z, A-Z)")
+        .required("This field is required..."),
     phoneNumber: Yup.string()
         .trim()
         .matches(/^[+0-9]+$/, "phone number (Characters allowed: 0-9, +)"),
@@ -81,14 +86,34 @@ const validationSchema = Yup.object().shape({
 
 const EditProfile = () => {
     const classes = useStyles();
+    const [loading, setLoading] = useState(false);
+    const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
     const formik = useFormik({
         initialValues: {
-            name: "",
-            email: ""
+            firstName: "",
+            lastName: "",
+            phoneNumber: "",
+            jobTitle: "",
+            linkedinURL: "",
+            facebookURL: "",
+            twitterURL: "",
+            personalWebsiteURL: ""
+
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
-            console.log(values);
+        onSubmit: async (values) => {
+            setLoading(true);
+            const response = await api.auth.editProfile(values);
+            if (response.type === "success") {
+                setAlertMsg(response.msg);
+                setAlertType("success");
+                setAlertOpen(true);
+            } else {
+                setAlertMsg(response.msg);
+                setAlertType("error");
+                setAlertOpen(true);
+            }
+            setLoading(false);
         },
     });
 
@@ -172,13 +197,12 @@ const EditProfile = () => {
                         <MuiPhoneNumber
                             defaultCountry={'us'}
                             fullWidth
-                            onChange={(value) => console.log(value)}
                             id='phoneNumber'
                             name='phoneNumber'
                             label="Phone Number"
                             variant="outlined"
                             value={formik.values.phoneNumber}
-                            onChange={formik.handleChange}
+                            onChange={formik.handleChange("phoneNumber")}
                         />
                         <MyTextField
                             id='jobTitle'
@@ -231,13 +255,15 @@ const EditProfile = () => {
                             error={formik.touched.personalWebsiteURL && Boolean(formik.errors.personalWebsiteURL)}
                         />
 
-                        <Button
-                            type='submit'
+                        <LocalButton
+                            type="submit"
                             className={classes.button}
                             variant="contained"
-                            color="primary">
+                            color="primary"
+                            loading={loading}
+                        >
                             Update
-                        </Button>
+                        </LocalButton>
                     </form>
                 </Grid>
             </Grid>

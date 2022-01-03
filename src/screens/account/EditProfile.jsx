@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Box, Grid, Button, Modal, makeStyles } from '@material-ui/core';
 import MyTextField from '../../components/common/MyTextField';
 import MuiPhoneNumber from 'mui-phone-number';
@@ -84,26 +84,30 @@ const validationSchema = Yup.object().shape({
 });
 
 
-const EditProfile = () => {
+const EditProfile = ({ profile }) => {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
     const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
     const formik = useFormik({
         initialValues: {
-            firstName: "",
-            lastName: "",
-            phoneNumber: "",
-            jobTitle: "",
-            linkedinURL: "",
-            facebookURL: "",
-            twitterURL: "",
-            personalWebsiteURL: ""
-
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            phoneNumber: profile.phoneNumber,
+            jobTitle: profile.jobTitle,
+            linkedinURL: profile.linkedinURL,
+            facebookURL: profile.facebookURL,
+            twitterURL: profile.twitterURL,
+            personalWebsiteURL: profile.personalWebsiteURL
         },
+        enableReinitialize: true,
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             setLoading(true);
-            const response = await api.auth.editProfile(values);
+            console.log(values);
+            const response = await api.auth.editProfile({
+                firstName: values.firstName,
+                lastName: values.lastName
+            });
             if (response.type === "success") {
                 setAlertMsg(response.msg);
                 setAlertType("success");
@@ -118,6 +122,7 @@ const EditProfile = () => {
     });
 
     const [profilePictureOpen, setProfilePictureOpen] = useState(false);
+
 
     return (
         <div className={classes.editProfileBox}>

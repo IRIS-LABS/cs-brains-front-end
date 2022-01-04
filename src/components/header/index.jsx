@@ -98,6 +98,10 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  toolBar: {
+    display: "flex",
+    justifyContent: "space-between"
+  }
 }));
 
 export default function Header() {
@@ -212,23 +216,10 @@ export default function Header() {
   return (
     <div className={classes.grow}>
       <AppBar position="static" className={classes.appBar}>
-        <Toolbar>
+        <Toolbar className={classes.toolBar}>
           <Typography className={classes.title} variant="h4" noWrap>
             S
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
           <div className={classes.sectionDesktop}>
             <Link to="/" className={classes.link}>
               <IconButton color="inherit">

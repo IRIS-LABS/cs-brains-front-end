@@ -44,8 +44,20 @@ const api = {
       ),
     logout: () =>
       ajaxHandler(axios.get("/api/auth/sign-out", { withCredentials: true })),
+    editProfile: (data) =>
+      ajaxHandler(
+        axios.post("/api/auth/update-profile", data, { withCredentials: true })),
+    getProfile: () =>
+      ajaxHandler(
+        axios.get("/api/auth/profile", { withCredentials: true })),
   },
   user: {},
+  connection: {
+    getConnections: () =>
+      ajaxHandler(
+        axios.get("/api/connection/connections", { withCredentials: true })
+      ),
+  }
 };
 
 const urls = {

@@ -4,7 +4,7 @@ import RouteWrapper from "./components/common/RouteWrapper";
 import Login from "./screens/login";
 import Register from "./screens/register";
 import Cards from "./screens/cards";
-import CardsSearch from "./screens/cards/search";
+import Home from "./screens/home";
 import Account from "./screens/account";
 import Header from "./components/header";
 import Footer from "./components/footer";
@@ -41,7 +41,7 @@ const AppRouter = () => {
           path="/editProfile"
           component={Account}
         />
-        <RouteWrapper protect={true} exact path="/" component={CardsSearch} />
+        <RouteWrapper protect={true} exact path="/" component={Home} />
       </Switch>
       <Footer />
       <Alert />

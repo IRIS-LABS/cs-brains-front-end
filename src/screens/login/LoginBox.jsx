@@ -88,7 +88,7 @@ const LoginBox = () => {
           setAlertType("success");
           setAlertOpen(true);
           login(res.data);
-          if (location.state.from) {
+          if (location && location.state && location.state.from) {
             history.push(location.state.from);
           } else {
             history.push("/");

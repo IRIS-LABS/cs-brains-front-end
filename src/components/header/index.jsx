@@ -5,16 +5,12 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import HomeIcon from "@material-ui/icons/Home";
 import PeopleIcon from "@material-ui/icons/People";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
 import api from "../../helpers/api";
 import { logout } from "../../auth";
 import { useHistory } from "react-router-dom";
@@ -100,8 +96,8 @@ const useStyles = makeStyles((theme) => ({
   },
   toolBar: {
     display: "flex",
-    justifyContent: "space-between"
-  }
+    justifyContent: "space-between",
+  },
 }));
 
 export default function Header() {
@@ -187,22 +183,6 @@ export default function Header() {
         </Link>
       </MenuItem>
       <MenuItem>
-        <Link to="/signup" className={classes.link}>
-          <IconButton>
-            <PersonAddIcon />
-            <p className={classes.linkMobileText}>Sign up</p>
-          </IconButton>
-        </Link>
-      </MenuItem>
-      <MenuItem>
-        <Link to="/signin" className={classes.link}>
-          <IconButton>
-            <ArrowRightAltIcon />
-            <p className={classes.linkMobileText}>Sign in</p>
-          </IconButton>
-        </Link>
-      </MenuItem>
-      <MenuItem>
         <Link to="#" className={classes.link}>
           <IconButton onClick={handleLogout}>
             <LogoutIcon />
@@ -231,18 +211,6 @@ export default function Header() {
               <IconButton color="inherit" className={classes.link}>
                 <PeopleIcon />
                 <p className={classes.navText}>Cards</p>
-              </IconButton>
-            </Link>
-            <Link to="/signup" className={classes.link}>
-              <IconButton color="inherit">
-                <PersonAddIcon />
-                <p className={classes.navText}>Sign up</p>
-              </IconButton>
-            </Link>
-            <Link to="/signin" className={classes.link}>
-              <IconButton color="inherit">
-                <ArrowRightAltIcon />
-                <p className={classes.navText}>Sign in</p>
               </IconButton>
             </Link>
             <Link to="#" className={classes.link}>

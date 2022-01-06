@@ -29,7 +29,7 @@ const AppRouter = () => {
         setAlertOpen,
       }}
     >
-      <Header />
+      <RouteWrapper protect={true} exact path="*" component={Header} />
       <Switch>
         <RouteWrapper exact path="/signin" component={Login} />
         <RouteWrapper exact path="/signup" component={Register} />
@@ -43,7 +43,7 @@ const AppRouter = () => {
         />
         <RouteWrapper protect={true} exact path="/" component={Home} />
       </Switch>
-      <Footer />
+      <RouteWrapper protect={true} exact path="*" component={Footer} />
       <Alert />
     </AlertContext.Provider>
   );

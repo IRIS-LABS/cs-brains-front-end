@@ -1,5 +1,5 @@
 import { Grid, Link, makeStyles, Typography } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import PersonCardGroup from "../../components/Cards/PersonCardGroup";
 import Search from "../../components/common/Search";
 
@@ -83,12 +83,12 @@ const Cards = () => {
     {
       connected: true,
       id: 10,
-
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
   ];
+  const [filteredCardList, setFilteredCardList] = useState(cardList);
 
   return (
     <>
@@ -96,9 +96,13 @@ const Cards = () => {
         <Typography variant="h5">Card List</Typography>
       </Grid>
       <Grid container justifyContent="center" className={classes.searchBox}>
-        <Search />
+        <Search
+          originalList={cardList}
+          setFilteredList={setFilteredCardList}
+          searchField={"heading"}
+        />
       </Grid>
-      <PersonCardGroup cardList={cardList} />
+      <PersonCardGroup cardList={filteredCardList} />
       <Grid container justifyContent="center" className={classes.seeMoreBtn}>
         <Link component="button" variant="body1">
           See More

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     color: theme.palette.primary.main,
-    textDecoration: "none"
+    textDecoration: "none",
   },
   title: {
     fontWeight: "bold",
@@ -75,31 +75,30 @@ const MyCard = ({ heading, subHeading, url, id }) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-          <Button
-            color="primary"
-            className={classes.button}
-            startIcon={<AssignmentIcon className={classes.buttonIcon} />}
-          >
-            <Link to = 'cards' className = {classes.link}>
-                Card List
-            </Link>
-          </Button>
+        <Button
+          color="primary"
+          className={classes.button}
+          startIcon={<AssignmentIcon className={classes.buttonIcon} />}
+        >
+          <Link to="cards" className={classes.link}>
+            Card List
+          </Link>
+        </Button>
         <Button
           color="primary"
           className={classes.button}
           startIcon={<EditIcon className={classes.buttonIcon} />}
         >
-          <Link to = 'editProfile' className = {classes.link}>
+          <Link to="editProfile" className={classes.link}>
             Edit
           </Link>
-          
         </Button>
         <Button
           color="primary"
           className={classes.button}
           startIcon={<LockIcon className={classes.buttonIcon} />}
         >
-          <Link to = 'signin' className = {classes.link}>
+          <Link to="signin" className={classes.link}>
             Sign Out
           </Link>
         </Button>

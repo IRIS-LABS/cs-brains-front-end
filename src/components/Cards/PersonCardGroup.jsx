@@ -2,6 +2,7 @@ import React from "react";
 import PersonCard from "./PersonCard";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import NoData from "../../assets/no-data.svg";
 
 const useStyles = makeStyles({
   root: {
@@ -25,27 +26,31 @@ const PersonCardGroup = ({ cardList, expandAll }) => {
         justifyContent="center"
         spacing={1}
       >
-        {cardList.map((e) => (
-          <Grid
-            container
-            key={e.id}
-            justifyContent="center"
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            lg={3}
-            xl={2}
-          >
-            <PersonCard
-              connected={e.connected}
-              id={e.id}
-              heading={e.heading}
-              subHeading={e.subHeading}
-              url={e.url}
-            />
-          </Grid>
-        ))}
+        {cardList.length === 0 ? (
+          <img src={NoData} />
+        ) : (
+          cardList.map((e) => (
+            <Grid
+              container
+              key={e.id}
+              justifyContent="center"
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              lg={3}
+              xl={2}
+            >
+              <PersonCard
+                connected={e.connected}
+                id={e.id}
+                heading={e.heading}
+                subHeading={e.subHeading}
+                url={e.url}
+              />
+            </Grid>
+          ))
+        )}
       </Grid>
     </div>
   );

@@ -5,9 +5,16 @@ import PersonCardGroup from "../../components/Cards/PersonCardGroup";
 import { getUser } from "../../auth";
 import api from "../../helpers/api";
 import { AlertContext } from "../../Routes";
+import Search from "../../components/common/Search";
+import { Pagination } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  subRoot: {
     display: "flex",
     justifyContent: "center",
     padding: 10,
@@ -15,87 +22,95 @@ const useStyles = makeStyles((theme) => ({
   myCardRoot: {
     marginTop: 8,
   },
+  searchBox: {
+    marginTop: 15,
+  },
+  seeMoreBtn: {
+    padding: theme.spacing(3),
+  },
 }));
 
 const Home = () => {
   const classes = useStyles();
   const [user, setUser] = useState(getUser().user);
+  const itemCount = 20;
+  const [currentPage, setCurrentPage] = useState(1);
 
   // const [cardList, setCardList] = useState([]);
   const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
   const cardList = [
     {
       id: 1,
-      connected: false,
+      connected: true,
       heading: "Emma Kaya Matte",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 2,
-      connected: false,
-      heading: "Emma Kaya Matte",
+      connected: true,
+      heading: "Amma Rayn",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 3,
-      connected: false,
-      heading: "Emma Kaya Matte",
+      connected: true,
+      heading: "Raveenu Thum",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 4,
-      connected: false,
-      heading: "Emma Kaya Matte",
+      connected: true,
+      heading: "Rumz Deel",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 5,
-      connected: false,
-      heading: "Emma Kaya Matte",
+      connected: true,
+      heading: "Olive Reem",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 6,
-      connected: false,
-      heading: "Emma Kaya Matte",
+      connected: true,
+      heading: "Ueery Quuie",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 7,
-      connected: false,
-      heading: "Emma Kaya Matte",
+      connected: true,
+      heading: "Three Yum",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 8,
-      connected: false,
-      heading: "Emma Kaya Matte",
+      connected: true,
+      heading: "Navin Opiku",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 9,
-      connected: false,
-      heading: "Emma Kaya Matte",
+      connected: true,
+      heading: "Kamal Fernando",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
-      connected: false,
+      connected: true,
       id: 10,
-
-      heading: "Emma Kaya Matte",
+      heading: "Yuwer Viewer",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
   ];
+  const [filteredCardList, setFilteredCardList] = useState(cardList);
 
   // useEffect(() => {
   //   async function getConnections() {
@@ -116,14 +131,42 @@ const Home = () => {
 
   return (
     <Grid container className={classes.root}>
-      <Grid item lg="3" className={classes.myCardRoot}>
-        <MyCard
-          heading={`${user.firstName} ${user.lastName}`}
-          subHeading="CEO & Founder of InceTec"
+      <Grid container justifyContent="center" className={classes.searchBox}>
+        <Search
+          originalList={cardList}
+          setFilteredList={setFilteredCardList}
+          searchField={"heading"}
         />
       </Grid>
-      <Grid item lg="9">
-        <PersonCardGroup cardList={cardList} expandAll />
+      <Grid container className={classes.subRoot}>
+        <Grid item lg="3" className={classes.myCardRoot}>
+          <MyCard
+            heading={`${user.firstName} ${user.lastName}`}
+            subHeading="CEO & Founder of InceTec"
+          />
+        </Grid>
+        <Grid item lg="9">
+          <PersonCardGroup
+            cardList={filteredCardList.slice(
+              itemCount * (currentPage - 1),
+              itemCount * currentPage
+            )}
+            expandAll
+          />
+        </Grid>
+      </Grid>
+      <Grid container justifyContent="center" className={classes.seeMoreBtn}>
+        <Pagination
+          color="primary"
+          count={Math.ceil(filteredCardList.length / itemCount)}
+          shape="rounded"
+          size="large"
+          showFirstButton
+          showLastButton
+          onChange={(e, pageNumber) => {
+            setCurrentPage(pageNumber);
+          }}
+        />
       </Grid>
     </Grid>
   );

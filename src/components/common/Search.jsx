@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
@@ -30,33 +30,34 @@ const Search = ({ originalList, setFilteredList, searchField }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filterOriginalList = () => {
-    if (searchQuery.trim() === "") {
-      return;
-    }
-    const filterList = [];
+    let filterList = [];
     const restList = [];
 
-    originalList.forEach((obj) => {
-      console.log(obj);
-      if (
-        obj[searchField]
-          .toLowerCase()
-          .startsWith(searchQuery.trim().toLowerCase())
-      ) {
-        filterList.push(obj);
-      } else {
-        restList.push(obj);
-      }
-    });
-    restList.forEach((obj) => {
-      if (
-        obj[searchField]
-          .toLowerCase()
-          .search(` ${searchQuery.trim().toLowerCase()}`) !== -1
-      ) {
-        filterList.push(obj);
-      }
-    });
+    if (searchQuery.trim() === "") {
+      filterList = [...originalList];
+    } else {
+      originalList.forEach((obj) => {
+        console.log(obj);
+        if (
+          obj[searchField]
+            .toLowerCase()
+            .startsWith(searchQuery.trim().toLowerCase())
+        ) {
+          filterList.push(obj);
+        } else {
+          restList.push(obj);
+        }
+      });
+      restList.forEach((obj) => {
+        if (
+          obj[searchField]
+            .toLowerCase()
+            .search(` ${searchQuery.trim().toLowerCase()}`) !== -1
+        ) {
+          filterList.push(obj);
+        }
+      });
+    }
     setFilteredList(filterList);
   };
 

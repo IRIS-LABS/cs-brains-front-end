@@ -2,6 +2,7 @@ import { Grid, Link, makeStyles, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import PersonCardGroup from "../../components/Cards/PersonCardGroup";
 import Search from "../../components/common/Search";
+import Pagination from "@material-ui/lab/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   header: { padding: theme.spacing(5) },
@@ -16,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Cards = () => {
   const classes = useStyles();
+  const itemCount = 4;
+  const [currentPage, setCurrentPage] = useState(1);
   const cardList = [
     {
       id: 1,
@@ -27,63 +30,63 @@ const Cards = () => {
     {
       id: 2,
       connected: true,
-      heading: "Emma Kaya Matte",
+      heading: "Amma Rayn",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 3,
       connected: true,
-      heading: "Emma Kaya Matte",
+      heading: "Raveenu Thum",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 4,
       connected: true,
-      heading: "Emma Kaya Matte",
+      heading: "Rumz Deel",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 5,
       connected: true,
-      heading: "Emma Kaya Matte",
+      heading: "Olive Reem",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 6,
       connected: true,
-      heading: "Emma Kaya Matte",
+      heading: "Ueery Quuie",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 7,
       connected: true,
-      heading: "Emma Kaya Matte",
+      heading: "Three Yum",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 8,
       connected: true,
-      heading: "Emma Kaya Matte",
+      heading: "Navin Opiku",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       id: 9,
       connected: true,
-      heading: "Emma Kaya Matte",
+      heading: "Kamal Fernando",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
     {
       connected: true,
       id: 10,
-      heading: "Emma Kaya Matte",
+      heading: "Yuwer Viewer",
       subHeading: "CEO & Founder of InceTec",
       url: "https://picsum.photos/400/400?random=1",
     },
@@ -102,11 +105,24 @@ const Cards = () => {
           searchField={"heading"}
         />
       </Grid>
-      <PersonCardGroup cardList={filteredCardList} />
+      <PersonCardGroup
+        cardList={filteredCardList.slice(
+          itemCount * (currentPage - 1),
+          itemCount * currentPage
+        )}
+      />
       <Grid container justifyContent="center" className={classes.seeMoreBtn}>
-        <Link component="button" variant="body1">
-          See More
-        </Link>
+        <Pagination
+          color="primary"
+          count={Math.ceil(filteredCardList.length / itemCount)}
+          shape="rounded"
+          size="large"
+          showFirstButton
+          showLastButton
+          onChange={(e, pageNumber) => {
+            setCurrentPage(pageNumber);
+          }}
+        />
       </Grid>
     </>
   );

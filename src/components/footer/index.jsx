@@ -81,16 +81,6 @@ const Footer = () => {
           Cards
         </Link>
       </MenuItem>
-      <MenuItem>
-        <Link className={classes.link} to="/signup">
-          Sign Up
-        </Link>
-      </MenuItem>
-      <MenuItem>
-        <Link className={classes.link} to="/signin">
-          Sign In
-        </Link>
-      </MenuItem>
     </Menu>
   );
 
@@ -107,12 +97,6 @@ const Footer = () => {
             </Button>
             <Button onClick={() => history.push("/cards")} color="inherit">
               Cards
-            </Button>
-            <Button onClick={() => history.push("/signup")} color="inherit">
-              Sign Up
-            </Button>
-            <Button onClick={() => history.push("/signin")} color="inherit">
-              Sign In
             </Button>
           </div>
           <div className={classes.sectionMobile}>

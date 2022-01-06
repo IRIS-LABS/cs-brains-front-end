@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
@@ -25,8 +25,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Search = () => {
+const Search = ({ originalList, setFilteredList, searchField }) => {
   const classes = useStyles();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filterOriginalList = () => {
+    let filterList = [];
+    const restList = [];
+
+    if (searchQuery.trim() === "") {
+      filterList = [...originalList];
+    } else {
+      originalList.forEach((obj) => {
+        console.log(obj);
+        if (
+          obj[searchField]
+            .toLowerCase()
+            .startsWith(searchQuery.trim().toLowerCase())
+        ) {
+          filterList.push(obj);
+        } else {
+          restList.push(obj);
+        }
+      });
+      restList.forEach((obj) => {
+        if (
+          obj[searchField]
+            .toLowerCase()
+            .search(` ${searchQuery.trim().toLowerCase()}`) !== -1
+        ) {
+          filterList.push(obj);
+        }
+      });
+    }
+    setFilteredList(filterList);
+  };
 
   return (
     <Paper component="form" className={classes.root}>
@@ -34,8 +67,16 @@ const Search = () => {
         className={classes.input}
         placeholder="Search"
         inputProps={{ "aria-label": "Search" }}
+        value={searchQuery}
+        onChange={(e) => {
+          setSearchQuery(e.currentTarget.value);
+        }}
       />
-      <IconButton className={classes.iconButton} aria-label="search">
+      <IconButton
+        className={classes.iconButton}
+        aria-label="search"
+        onClick={filterOriginalList}
+      >
         <SearchIcon />
       </IconButton>
     </Paper>

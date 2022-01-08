@@ -102,11 +102,15 @@ const EditProfile = ({ profile }) => {
         enableReinitialize: true,
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            setLoading(true);
-            console.log(values);
             const response = await api.auth.editProfile({
                 firstName: values.firstName,
-                lastName: values.lastName
+                lastName: values.lastName,
+                phoneNumber: values.phoneNumber,
+                jobTitle: values.jobTitle,
+                linkedinURL: values.linkedinURL,
+                facebookURL: values.facebookURL,
+                twitterURL: values.twitterURL,
+                personalWebsiteURL: values.personalWebsiteURL
             });
             if (response.type === "success") {
                 setAlertMsg(response.msg);

@@ -81,6 +81,7 @@ const validationSchema = Yup.object().shape({
 
 
 const EditProfile = ({ profile }) => {
+    const [image, setImage] = useState();
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
     const [profilePictureUploading, setProfilePictureUploading] = useState(false);
@@ -130,6 +131,7 @@ const EditProfile = ({ profile }) => {
                 setAlertMsg(uploadResponse.msg);
                 setAlertType("success");
                 setAlertOpen(true);
+                setProfilePictureOpen(false);
             } else {
                 setAlertMsg(uploadResponse.msg);
                 setAlertType("error");
@@ -165,7 +167,8 @@ const EditProfile = ({ profile }) => {
                         </Box>
                     </Modal>
                     <img
-                        src={avatar}
+                        src={api.auth.loadProfileImage("d47af7b2-24af-4764-8411-9dad1d34c666")}
+
                         width={120}
                         height={120}
                         className={classes.avatar}

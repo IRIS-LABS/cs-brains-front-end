@@ -53,6 +53,9 @@ const api = {
     uploadProfilePicture: (data) =>
       ajaxHandler(
         axios.post("/api/auth/upload-profile-picture", data, { withCredentials: true })),
+    loadProfileImage: (param) =>
+      ajaxHandler(
+        axios.get(`/api/auth/load-profile-image?userID=${param}`, { withCredentials: true })),
   },
   user: {},
   connection: {

@@ -50,6 +50,14 @@ const api = {
     getProfile: () =>
       ajaxHandler(
         axios.get("/api/auth/profile", { withCredentials: true })),
+    uploadProfilePicture: (data) =>
+      ajaxHandler(
+        axios.post("/api/auth/upload-profile-picture", data, { withCredentials: true })),
+    loadProfileImage: (param) => {
+      const url = `${BASE_URL}/api/auth/load-profile-image?userID=${param}`;
+      console.log(url);
+      return url;
+    },
   },
   user: {},
   connection: {

@@ -4,7 +4,12 @@ import { Route } from "react-router-dom";
 import { Redirect } from "react-router-dom";
 import { getUser } from "../../auth";
 
-const RouteWrapper = ({ protect = false, component: Component, ...rest }) => {
+const RouteWrapper = ({
+  protect = false,
+  redirect = true,
+  component: Component,
+  ...rest
+}) => {
   const location = useLocation();
   const handleRouting = () => {
     const data = getUser();
@@ -13,17 +18,20 @@ const RouteWrapper = ({ protect = false, component: Component, ...rest }) => {
       if (data && data.isAuthenticated) {
         return <Route {...rest} render={(props) => <Component {...props} />} />;
       } else {
-        return (
-          <Redirect
-            to={{ pathname: "/signin", state: { from: location.pathname } }}
-          />
-        );
+        if (redirect)
+          return (
+            <Redirect
+              to={{ pathname: "/signin", state: { from: location.pathname } }}
+            />
+          );
+        else return null;
       }
     } else {
       if (!data) {
         return <Route {...rest} render={(props) => <Component {...props} />} />;
       } else {
-        return <Redirect to={{ pathname: "/" }} />;
+        if (redirect) return <Redirect to={{ pathname: "/" }} />;
+        else return null;
       }
     }
   };

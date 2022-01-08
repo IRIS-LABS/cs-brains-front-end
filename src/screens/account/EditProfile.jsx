@@ -9,6 +9,7 @@ import MyAvatarUploader from '../../components/common/MyAvatarUploader';
 import LocalButton from "../../components/common/LocalButton";
 import api from '../../helpers/api';
 import { AlertContext } from "../../Routes";
+import { getImageBlob } from '../../helpers/fileUpload';
 
 
 const useStyles = makeStyles({
@@ -39,11 +40,6 @@ const useStyles = makeStyles({
     profilePictureEditor: {
         justifyContent: "center",
         alignItems: "center",
-    },
-    profilePictureEditorButtonsContainer: {
-        marginTop: 20,
-        justifyContent: "space-around",
-        display: "flex",
     },
     title: {
         fontWeight: 'bold',
@@ -87,6 +83,7 @@ const validationSchema = Yup.object().shape({
 const EditProfile = ({ profile }) => {
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
+    const [profilePictureUploading, setProfilePictureUploading] = useState(false);
     const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
     const formik = useFormik({
         initialValues: {
@@ -122,7 +119,29 @@ const EditProfile = ({ profile }) => {
     });
 
     const [profilePictureOpen, setProfilePictureOpen] = useState(false);
-
+    const handleUpload = async (file) => {
+        const blobResponse = await getImageBlob(file);
+        if (blobResponse.success) {
+            const formData = new FormData();
+            formData.append("avatar", blobResponse.data);
+            setProfilePictureUploading(true);
+            const uploadResponse = await api.auth.uploadProfilePicture(formData);
+            if (uploadResponse.type === "success") {
+                setAlertMsg(uploadResponse.msg);
+                setAlertType("success");
+                setAlertOpen(true);
+            } else {
+                setAlertMsg(uploadResponse.msg);
+                setAlertType("error");
+                setAlertOpen(true);
+            }
+            setProfilePictureUploading(false);
+        } else {
+            setAlertMsg("Error preparing image upload");
+            setAlertType("error");
+            setAlertOpen(true);
+        }
+    }
 
     return (
         <div className={classes.editProfileBox}>
@@ -138,26 +157,11 @@ const EditProfile = ({ profile }) => {
                         className={classes.profilePictureEditor}
                     >
                         <Box style={{ position: "absolute", top: "20%", left: "40%" }}>
-                            <MyAvatarUploader />
-                            <div className={classes.profilePictureEditorButtonsContainer}>
-                                <Button
-                                    type='submit'
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => setProfilePictureOpen(false)}
-                                >
-                                    Close
-                                </Button>
-                                <Button
-                                    type='submit'
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => setProfilePictureOpen(false)}
-                                >
-                                    Confirm
-                                </Button>
-
-                            </div>
+                            <MyAvatarUploader
+                                onClose={() => setProfilePictureOpen(false)}
+                                onUpload={(file) => handleUpload(file)}
+                                updating={profilePictureUploading}
+                            />
                         </Box>
                     </Modal>
                     <img

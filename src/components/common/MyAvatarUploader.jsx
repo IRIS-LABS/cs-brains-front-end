@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
+import { Button, makeStyles } from '@material-ui/core';
 import Avatar from 'react-avatar-edit';
+import { mergeClasses } from '@material-ui/styles';
+import LocalButton from './LocalButton';
 
-const MyAvatarUploader = () => {
+const useStyles = makeStyles({
+    buttonsContainer: {
+        marginTop: 20,
+        justifyContent: "space-around",
+        display: "flex",
+    },
+});
+
+const MyAvatarUploader = ({ onClose, onUpload, updating }) => {
+    const classes = useStyles();
     const [preview, setPreview] = useState(null);
-    const [src, setSRC] = useState();
+    const [file, setFile] = useState();
 
     const handleBeforeFileLoad = elem => {
         if (elem.target.files[0].size > 10901904) {
@@ -18,13 +30,29 @@ const MyAvatarUploader = () => {
                 width={300}
                 height={300}
                 onCrop={preview => setPreview(preview)}
-                onClose={() => setPreview(null)}
                 onBeforeFileLoad={handleBeforeFileLoad}
-                onFileLoad={file => console.log(file)}
-                src={src}
-
                 labelStyle={{ color: "white" }}
             />
+            <div className={classes.buttonsContainer}>
+                <Button
+                    type='submit'
+                    variant="contained"
+                    color="primary"
+                    onClick={onClose}
+                >
+                    Close
+                </Button>
+                <LocalButton
+                    type="submit"
+                    className={classes.button}
+                    variant="contained"
+                    color="primary"
+                    loading={updating}
+                    onClick={() => onUpload(preview)}
+                >
+                    Confirm
+                </LocalButton>
+            </div>
         </>
     );
 };

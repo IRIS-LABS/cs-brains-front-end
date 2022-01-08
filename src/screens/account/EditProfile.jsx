@@ -7,9 +7,11 @@ import avatar from "../../assets/default-avatar.svg";
 import * as Yup from 'yup';
 import MyAvatarUploader from '../../components/common/MyAvatarUploader';
 import LocalButton from "../../components/common/LocalButton";
+import MyImage from "./../../components/common/MyImage";
 import api from '../../helpers/api';
 import { AlertContext } from "../../Routes";
 import { getImageBlob } from '../../helpers/fileUpload';
+import { getUser } from "../../auth";
 
 
 const useStyles = makeStyles({
@@ -81,7 +83,7 @@ const validationSchema = Yup.object().shape({
 
 
 const EditProfile = ({ profile }) => {
-    const [image, setImage] = useState();
+    const [user, setUser] = useState(getUser().user);
     const classes = useStyles();
     const [loading, setLoading] = useState(false);
     const [profilePictureUploading, setProfilePictureUploading] = useState(false);
@@ -166,9 +168,8 @@ const EditProfile = ({ profile }) => {
                             />
                         </Box>
                     </Modal>
-                    <img
-                        src={api.auth.loadProfileImage("d47af7b2-24af-4764-8411-9dad1d34c666")}
-
+                    <MyImage
+                        src={api.auth.loadProfileImage(user.userID)}
                         width={120}
                         height={120}
                         className={classes.avatar}

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useHistory } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   CardHeader,
@@ -14,6 +15,9 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import EditIcon from "@material-ui/icons/Edit";
 import LockIcon from "@material-ui/icons/Lock";
 import { Link } from "react-router-dom";
+import { AlertContext } from "../../Routes";
+import api from "../../helpers/api";
+import { logout } from "../../auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +58,25 @@ const useStyles = makeStyles((theme) => ({
 
 const MyCard = ({ heading, subHeading, url, id }) => {
   const classes = useStyles();
+  const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
+  const history = useHistory();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    api.auth.logout().then((res) => {
+      if (res.type === "success") {
+        setAlertMsg(res.msg);
+        setAlertType("success");
+        setAlertOpen(true);
+        logout();
+        history.push("/signin");
+      } else {
+        setAlertMsg(res.msg);
+        setAlertType("error");
+        setAlertOpen(true);
+      }
+    });
+  }
 
   return (
     <Card className={classes.root}>
@@ -98,7 +121,7 @@ const MyCard = ({ heading, subHeading, url, id }) => {
           className={classes.button}
           startIcon={<LockIcon className={classes.buttonIcon} />}
         >
-          <Link to="signin" className={classes.link}>
+          <Link onClick={handleLogout} className={classes.link}>
             Sign Out
           </Link>
         </Button>

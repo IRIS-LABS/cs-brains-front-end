@@ -69,7 +69,20 @@ const PersonCard = ({
   };
 
   const handleUnfollow = (id) => {
-    console.log("Unfollowed", id);
+    setLoading(true);
+    api.connection.removeConnection(id).then((res) => {
+      if (res.type === "success") {
+        setAlertMsg(res.msg);
+        setAlertType("success");
+        setAlertOpen(true);
+        removeCardFromCardList(id);
+      } else {
+        setAlertMsg(res.msg);
+        setAlertType("error");
+        setAlertOpen(true);
+      }
+      setLoading(false);
+    });
   };
 
   return (

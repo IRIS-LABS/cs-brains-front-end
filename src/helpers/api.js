@@ -80,6 +80,14 @@ const api = {
           { withCredentials: true }
         )
       ),
+    removeConnection: (data) =>
+      ajaxHandler(
+        axios.post(
+          "/api/connection/remove-connection",
+          { connectedUserID: data },
+          { withCredentials: true }
+        )
+      ),
   },
 };
 

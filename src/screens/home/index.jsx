@@ -3,10 +3,11 @@ import MyCard from "../../components/Cards/MyCard";
 import { Grid, makeStyles } from "@material-ui/core";
 import PersonCardGroup from "../../components/Cards/PersonCardGroup";
 import { getUser } from "../../auth";
-import api from "../../helpers/api";
+import api, { urls } from "../../helpers/api";
 import { AlertContext } from "../../Routes";
 import Search from "../../components/common/Search";
 import { Pagination } from "@material-ui/lab";
+import Loading from "../../components/common/Loading";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,98 +38,42 @@ const Home = () => {
   const itemCount = 20;
   const [currentPage, setCurrentPage] = useState(1);
 
-  // const [cardList, setCardList] = useState([]);
   const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
-  const cardList = [
-    {
-      id: 1,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 2,
-      connected: true,
-      heading: "Amma Rayn",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 3,
-      connected: true,
-      heading: "Raveenu Thum",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 4,
-      connected: true,
-      heading: "Rumz Deel",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 5,
-      connected: true,
-      heading: "Olive Reem",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 6,
-      connected: true,
-      heading: "Ueery Quuie",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 7,
-      connected: true,
-      heading: "Three Yum",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 8,
-      connected: true,
-      heading: "Navin Opiku",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 9,
-      connected: true,
-      heading: "Kamal Fernando",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      connected: true,
-      id: 10,
-      heading: "Yuwer Viewer",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-  ];
+  const [cardList, setCardList] = useState([]);
   const [filteredCardList, setFilteredCardList] = useState(cardList);
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   async function getConnections() {
-  //     const response = await api.connection.getConnections();
-  //     if (response.type === 'error') {
-  //       setAlertMsg(response.msg);
-  //       setAlertType("error");
-  //       setAlertOpen(true);
-  //     } else {
-  //       const connections = response.data;
-  //       const newCardList = connections.map(c => { return { ...c.User, id: c.User.userID, connected: true, heading: `${c.User.firstName} ${c.User.lastName}`, subHeading: c.User.jobTitle ? c.User.jobTitle : "", url: "https://picsum.photos/400/400?random=1" } })
-  //       setCardList(newCardList);
-  //     }
-  //   };
-  //   getConnections();
+  useEffect(() => {
+    setLoading(true);
+    api.connection.getConnections().then((res) => {
+      if (res.type === "success") {
+        setAlertMsg(res.msg);
+        setAlertType("success");
+        setAlertOpen(true);
 
-  // }, []);
+        const reCreatedUserList = res.data.map((element) => ({
+          id: element.User.userID,
+          connected: true,
+          heading: `${element.User.firstName} ${element.User.lastName}`,
+          subHeading: element.User.jobTitle
+            ? element.User.jobTitle
+            : "Job title is not assigned yet",
+
+          url: urls.auth.loadProfileImage(element.User.userID),
+        }));
+        setCardList(reCreatedUserList);
+      } else {
+        setAlertMsg(res.msg);
+        setAlertType("error");
+        setAlertOpen(true);
+      }
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    setFilteredCardList(cardList);
+  }, [cardList]);
 
 
   useEffect(() => {
@@ -151,48 +96,58 @@ const Home = () => {
     }
 
     getUserDetails()
-  }, [])
+  }, []);
+
+  const removeCardFromCardList = (id) => {
+    const newCardList = cardList.filter((card) => card.id !== id);
+    setCardList(newCardList);
+  };
+
 
   return (
-    <Grid container className={classes.root}>
-      <Grid container justifyContent="center" className={classes.searchBox}>
-        <Search
-          originalList={cardList}
-          setFilteredList={setFilteredCardList}
-          searchField={"heading"}
-        />
-      </Grid>
-      <Grid container className={classes.subRoot}>
-        <Grid item lg="3" className={classes.myCardRoot}>
-          <MyCard
-            heading={`${user.firstName} ${user.lastName}`}
-            subHeading={profile && profile.jobTitle ? profile.jobTitle : ""}
+    <Loading loading={loading}>
+      <Grid container className={classes.root}>
+        <Grid container justifyContent="center" className={classes.searchBox}>
+          <Search
+            originalList={cardList}
+            setFilteredList={setFilteredCardList}
+            searchField={"heading"}
           />
         </Grid>
-        <Grid item lg="9">
-          <PersonCardGroup
-            cardList={filteredCardList.slice(
-              itemCount * (currentPage - 1),
-              itemCount * currentPage
-            )}
-            expandAll
+        <Grid container className={classes.subRoot}>
+          <Grid item lg="3" className={classes.myCardRoot}>
+            <MyCard
+              heading={`${user.firstName} ${user.lastName}`}
+              subHeading={profile && profile.jobTitle ? profile.jobTitle : ""}
+              url={urls.auth.loadProfileImage(user.userID)}
+            />
+          </Grid>
+          <Grid item lg="9">
+            <PersonCardGroup
+              cardList={filteredCardList.slice(
+                itemCount * (currentPage - 1),
+                itemCount * currentPage
+              )}
+              expandAll
+              removeCardFromCardList={removeCardFromCardList}
+            />
+          </Grid>
+        </Grid>
+        <Grid container justifyContent="center" className={classes.seeMoreBtn}>
+          <Pagination
+            color="primary"
+            count={Math.ceil(filteredCardList.length / itemCount)}
+            shape="rounded"
+            size="large"
+            showFirstButton
+            showLastButton
+            onChange={(e, pageNumber) => {
+              setCurrentPage(pageNumber);
+            }}
           />
         </Grid>
       </Grid>
-      <Grid container justifyContent="center" className={classes.seeMoreBtn}>
-        <Pagination
-          color="primary"
-          count={Math.ceil(filteredCardList.length / itemCount)}
-          shape="rounded"
-          size="large"
-          showFirstButton
-          showLastButton
-          onChange={(e, pageNumber) => {
-            setCurrentPage(pageNumber);
-          }}
-        />
-      </Grid>
-    </Grid>
+    </Loading>
   );
 };
 

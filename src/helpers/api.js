@@ -46,7 +46,8 @@ const api = {
       ajaxHandler(axios.get("/api/auth/sign-out", { withCredentials: true })),
     editProfile: (data) =>
       ajaxHandler(
-        axios.post("/api/auth/update-profile", data, { withCredentials: true })),
+        axios.post("/api/auth/update-profile", data, { withCredentials: true })
+      ),
     getProfile: () =>
       ajaxHandler(
         axios.get("/api/auth/profile", { withCredentials: true })),
@@ -65,12 +66,30 @@ const api = {
       ajaxHandler(
         axios.get("/api/connection/connections", { withCredentials: true })
       ),
-  }
+    getDisconnectedUsers: () =>
+      ajaxHandler(
+        axios.get("/api/connection/disconnected-users", {
+          withCredentials: true,
+        })
+      ),
+    addConnection: (data) =>
+      ajaxHandler(
+        axios.post(
+          "/api/connection/add-connection",
+          { connectedUserID: data },
+          { withCredentials: true }
+        )
+      ),
+  },
 };
 
 const urls = {
   auth: {
     google: `${BASE_URL}/api/auth/third-party/google`,
+    loadProfileImage: (param) => {
+      const url = `${BASE_URL}/api/auth/load-profile-image?userID=${param}`;
+      return url;
+    },
   },
 };
 

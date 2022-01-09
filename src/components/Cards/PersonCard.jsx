@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   CardHeader,
@@ -10,6 +10,9 @@ import {
   Avatar,
 } from "@material-ui/core";
 import PublicIcon from "@material-ui/icons/Public";
+import { AlertContext } from "../../Routes";
+import api from "../../helpers/api";
+import LocalButton from "../common/LocalButton";
 
 const useStyles = makeStyles({
   root: {
@@ -36,11 +39,33 @@ const useStyles = makeStyles({
   },
 });
 
-const PersonCard = ({ connected = false, heading, subHeading, url, id }) => {
+const PersonCard = ({
+  connected = false,
+  heading,
+  subHeading,
+  url,
+  id,
+  removeCardFromCardList,
+}) => {
   const classes = useStyles();
+  const [loading, setLoading] = useState(false);
+  const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
 
   const handleConnect = (id) => {
-    console.log("Connected", id);
+    setLoading(true);
+    api.connection.addConnection(id).then((res) => {
+      if (res.type === "success") {
+        setAlertMsg(res.msg);
+        setAlertType("success");
+        setAlertOpen(true);
+        removeCardFromCardList(id);
+      } else {
+        setAlertMsg(res.msg);
+        setAlertType("error");
+        setAlertOpen(true);
+      }
+      setLoading(false);
+    });
   };
 
   const handleUnfollow = (id) => {
@@ -77,15 +102,16 @@ const PersonCard = ({ connected = false, heading, subHeading, url, id }) => {
             Unfollow
           </Button>
         ) : (
-          <Button
+          <LocalButton
             size="large"
             color="primary"
             variant="contained"
             startIcon={<PublicIcon fontSize="small" />}
             onClick={() => handleConnect(id)}
+            loading={loading}
           >
             Connect
-          </Button>
+          </LocalButton>
         )}
       </CardActions>
     </Card>

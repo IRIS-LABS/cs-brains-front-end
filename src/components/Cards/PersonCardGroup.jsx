@@ -2,17 +2,18 @@ import React from "react";
 import PersonCard from "./PersonCard";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import NoData from "../../assets/no-data.svg";
+import NoData from "../common/NoData";
 
 const useStyles = makeStyles({
   root: {
     display: "flex",
     justifyContent: "center",
     padding: 5,
+    width: "100%",
   },
 });
 
-const PersonCardGroup = ({ cardList, expandAll }) => {
+const PersonCardGroup = ({ cardList, expandAll, removeCardFromCardList }) => {
   const classes = useStyles();
 
   return (
@@ -27,7 +28,7 @@ const PersonCardGroup = ({ cardList, expandAll }) => {
         spacing={1}
       >
         {cardList.length === 0 ? (
-          <img src={NoData} />
+          <NoData />
         ) : (
           cardList.map((e) => (
             <Grid
@@ -47,6 +48,7 @@ const PersonCardGroup = ({ cardList, expandAll }) => {
                 heading={e.heading}
                 subHeading={e.subHeading}
                 url={e.url}
+                removeCardFromCardList={removeCardFromCardList}
               />
             </Grid>
           ))

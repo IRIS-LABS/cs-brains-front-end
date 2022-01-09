@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import MyAvatarUploader from '../../components/common/MyAvatarUploader';
 import LocalButton from "../../components/common/LocalButton";
 import MyImage from "./../../components/common/MyImage";
-import api, { urls } from '../../helpers/api';
+import api from '../../helpers/api';
 import { AlertContext } from "../../Routes";
 import { getImageBlob } from '../../helpers/fileUpload';
 import { getUser } from "../../auth";
@@ -92,7 +92,7 @@ const EditProfile = ({ profile }) => {
         initialValues: {
             firstName: profile.firstName,
             lastName: profile.lastName,
-            phoneNumber: profile.phoneNumber ? profile.firstName : "",
+            phoneNumber: profile.phoneNumber ? profile.phoneNumber : "",
             jobTitle: profile.jobTitle ? profile.jobTitle : "",
             linkedinURL: profile.linkedinURL ? profile.linkedinURL : "",
             facebookURL: profile.facebookURL ? profile.facebookURL : "",
@@ -102,6 +102,7 @@ const EditProfile = ({ profile }) => {
         enableReinitialize: true,
         validationSchema: validationSchema,
         onSubmit: async (values) => {
+            setLoading(true);
             const response = await api.auth.editProfile({
                 firstName: values.firstName,
                 lastName: values.lastName,
@@ -150,7 +151,8 @@ const EditProfile = ({ profile }) => {
             setAlertType("error");
             setAlertOpen(true);
         }
-    }
+    };
+
 
     return (
         <div className={classes.editProfileBox}>

@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const [user, setUser] = useState(getUser().user);
+  const [profile, setProfile] = useState(null);
   const itemCount = 20;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -129,6 +130,29 @@ const Home = () => {
 
   // }, []);
 
+
+  useEffect(() => {
+    async function getUserDetails() {
+      try {
+        const response = await api.auth.getProfile();
+        if (response.type === "success") {
+          setProfile(response.data);
+        } else {
+          setAlertMsg(response.msg);
+          setAlertType("error");
+          setAlertOpen(true);
+        };
+
+      } catch (e) {
+        setAlertMsg("Error retrieving profile data...");
+        setAlertType("error");
+        setAlertOpen(true);
+      }
+    }
+
+    getUserDetails()
+  }, [])
+
   return (
     <Grid container className={classes.root}>
       <Grid container justifyContent="center" className={classes.searchBox}>
@@ -142,7 +166,7 @@ const Home = () => {
         <Grid item lg="3" className={classes.myCardRoot}>
           <MyCard
             heading={`${user.firstName} ${user.lastName}`}
-            subHeading="CEO & Founder of InceTec"
+            subHeading={profile && profile.jobTitle ? profile.jobTitle : ""}
           />
         </Grid>
         <Grid item lg="9">

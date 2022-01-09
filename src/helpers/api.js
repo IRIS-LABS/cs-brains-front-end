@@ -63,6 +63,14 @@ const api = {
           withCredentials: true,
         })
       ),
+    addConnection: (data) =>
+      ajaxHandler(
+        axios.post(
+          "/api/connection/add-connection",
+          { connectedUserID: data },
+          { withCredentials: true }
+        )
+      ),
   },
 };
 

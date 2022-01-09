@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-const PersonCardGroup = ({ cardList, expandAll }) => {
+const PersonCardGroup = ({ cardList, expandAll, removeCardFromCardList }) => {
   const classes = useStyles();
 
   return (
@@ -48,6 +48,7 @@ const PersonCardGroup = ({ cardList, expandAll }) => {
                 heading={e.heading}
                 subHeading={e.subHeading}
                 url={e.url}
+                removeCardFromCardList={removeCardFromCardList}
               />
             </Grid>
           ))

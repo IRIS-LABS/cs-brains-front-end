@@ -58,6 +58,11 @@ const Cards = () => {
     setFilteredCardList(cardList);
   }, [cardList]);
 
+  const removeCardFromCardList = (id) => {
+    const newCardList = cardList.filter((card) => card.id !== id);
+    setCardList(newCardList);
+  };
+
   return (
     <Loading loading={loading}>
       <Grid container justifyContent="center" className={classes.header}>
@@ -75,6 +80,7 @@ const Cards = () => {
           itemCount * (currentPage - 1),
           itemCount * currentPage
         )}
+        removeCardFromCardList={removeCardFromCardList}
       />
       <Grid container justifyContent="center" className={classes.seeMoreBtn}>
         <Pagination

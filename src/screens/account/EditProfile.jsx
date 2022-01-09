@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import MyAvatarUploader from '../../components/common/MyAvatarUploader';
 import LocalButton from "../../components/common/LocalButton";
 import MyImage from "./../../components/common/MyImage";
-import api from '../../helpers/api';
+import api, { urls } from '../../helpers/api';
 import { AlertContext } from "../../Routes";
 import { getImageBlob } from '../../helpers/fileUpload';
 import { getUser } from "../../auth";
@@ -134,6 +134,7 @@ const EditProfile = ({ profile }) => {
             setProfilePictureUploading(true);
             const uploadResponse = await api.auth.uploadProfilePicture(formData);
             if (uploadResponse.type === "success") {
+                window.location.reload(false);
                 setAlertMsg(uploadResponse.msg);
                 setAlertType("success");
                 setAlertOpen(true);

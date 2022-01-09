@@ -34,17 +34,17 @@ const MyAvatarUploader = ({ onClose, onUpload, updating }) => {
                 labelStyle={{ color: "white" }}
             />
             <div className={classes.buttonsContainer}>
-                <Button
+                <LocalButton
                     type='submit'
                     variant="contained"
                     color="primary"
+                    loading={false}
                     onClick={onClose}
                 >
                     Close
-                </Button>
+                </LocalButton>
                 <LocalButton
                     type="submit"
-                    className={classes.button}
                     variant="contained"
                     color="primary"
                     loading={updating}

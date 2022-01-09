@@ -76,7 +76,7 @@ const MyCard = ({ heading, subHeading, url, id }) => {
         setAlertOpen(true);
       }
     });
-  }
+  };
 
   return (
     <Card className={classes.root}>
@@ -94,7 +94,7 @@ const MyCard = ({ heading, subHeading, url, id }) => {
           {heading}
         </Typography>
         <Typography variant="h5" align="center" component="h2">
-          {subHeading}
+          {subHeading ? subHeading : "Job title is not assigned yet"}
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>

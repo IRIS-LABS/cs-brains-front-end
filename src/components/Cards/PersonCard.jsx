@@ -8,6 +8,7 @@ import {
   Button,
   Typography,
   Avatar,
+  Tooltip,
 } from "@material-ui/core";
 import PublicIcon from "@material-ui/icons/Public";
 import { AlertContext } from "../../Routes";
@@ -92,17 +93,22 @@ const PersonCard = ({
         className={classes.cardHeader}
       />
       <CardContent>
-        <Typography
-          className={classes.title}
-          variant="h5"
-          align="center"
-          component="h2"
-        >
-          {heading}
-        </Typography>
-        <Typography variant="h5" align="center" component="h2">
-          {subHeading}
-        </Typography>
+        <Tooltip title={heading} placement="top" interactive>
+          <Typography
+            className={classes.title}
+            variant="h5"
+            align="center"
+            component="h2"
+            noWrap
+          >
+            {heading}
+          </Typography>
+        </Tooltip>
+        <Tooltip title={subHeading} placement="bottom" interactive>
+          <Typography variant="h5" align="center" component="h2" noWrap>
+            {subHeading}
+          </Typography>
+        </Tooltip>
       </CardContent>
       <CardActions className={classes.cardActions}>
         {connected ? (

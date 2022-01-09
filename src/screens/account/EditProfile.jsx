@@ -92,12 +92,12 @@ const EditProfile = ({ profile }) => {
         initialValues: {
             firstName: profile.firstName,
             lastName: profile.lastName,
-            phoneNumber: profile.phoneNumber,
-            jobTitle: profile.jobTitle,
-            linkedinURL: profile.linkedinURL,
-            facebookURL: profile.facebookURL,
-            twitterURL: profile.twitterURL,
-            personalWebsiteURL: profile.personalWebsiteURL
+            phoneNumber: profile.phoneNumber ? profile.firstName : "",
+            jobTitle: profile.jobTitle ? profile.jobTitle : "",
+            linkedinURL: profile.linkedinURL ? profile.linkedinURL : "",
+            facebookURL: profile.facebookURL ? profile.facebookURL : "",
+            twitterURL: profile.twitterURL ? profile.twitterURL : "",
+            personalWebsiteURL: profile.personalWebsiteURL ? profile.personalWebsiteURL : ""
         },
         enableReinitialize: true,
         validationSchema: validationSchema,

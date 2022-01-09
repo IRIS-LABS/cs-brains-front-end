@@ -1,8 +1,12 @@
-import { Grid, Link, makeStyles, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
+import React, { useContext, useState } from "react";
 import PersonCardGroup from "../../components/Cards/PersonCardGroup";
 import Search from "../../components/common/Search";
 import Pagination from "@material-ui/lab/Pagination";
+import { useEffect } from "react";
+import { AlertContext } from "../../Routes";
+import api, { urls } from "../../helpers/api";
+import Loading from "../../components/common/Loading";
 
 const useStyles = makeStyles((theme) => ({
   header: { padding: theme.spacing(5) },
@@ -19,82 +23,43 @@ const Cards = () => {
   const classes = useStyles();
   const itemCount = 4;
   const [currentPage, setCurrentPage] = useState(1);
-  const cardList = [
-    {
-      id: 1,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 2,
-      connected: true,
-      heading: "Amma Rayn",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 3,
-      connected: true,
-      heading: "Raveenu Thum",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 4,
-      connected: true,
-      heading: "Rumz Deel",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 5,
-      connected: true,
-      heading: "Olive Reem",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 6,
-      connected: true,
-      heading: "Ueery Quuie",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 7,
-      connected: true,
-      heading: "Three Yum",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 8,
-      connected: true,
-      heading: "Navin Opiku",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 9,
-      connected: true,
-      heading: "Kamal Fernando",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      connected: true,
-      id: 10,
-      heading: "Yuwer Viewer",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-  ];
+  const [cardList, setCardList] = useState([]);
   const [filteredCardList, setFilteredCardList] = useState(cardList);
+  const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    api.connection.getDisconnectedUsers().then((res) => {
+      if (res.type === "success") {
+        setAlertMsg(res.msg);
+        setAlertType("success");
+        setAlertOpen(true);
+        const reCreatedUserList = res.data.map((user) => ({
+          id: user.userID,
+          connected: false,
+          heading: `${user.firstName} ${user.lastName}`,
+          subHeading: user.jobTitle
+            ? user.jobTitle
+            : "Job title is not assigned yet",
+          url: urls.auth.loadProfileImage(user.userID),
+        }));
+        setCardList(reCreatedUserList);
+      } else {
+        setAlertMsg(res.msg);
+        setAlertType("error");
+        setAlertOpen(true);
+      }
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    setFilteredCardList(cardList);
+  }, [cardList]);
 
   return (
-    <>
+    <Loading loading={loading}>
       <Grid container justifyContent="center" className={classes.header}>
         <Typography variant="h5">Card List</Typography>
       </Grid>
@@ -124,7 +89,7 @@ const Cards = () => {
           }}
         />
       </Grid>
-    </>
+    </Loading>
   );
 };
 

@@ -1,7 +1,12 @@
-import { Grid, Link, makeStyles, Typography } from "@material-ui/core";
-import React from "react";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
+import React, { useContext, useState } from "react";
 import PersonCardGroup from "../../components/Cards/PersonCardGroup";
 import Search from "../../components/common/Search";
+import Pagination from "@material-ui/lab/Pagination";
+import { useEffect } from "react";
+import { AlertContext } from "../../Routes";
+import api, { urls } from "../../helpers/api";
+import Loading from "../../components/common/Loading";
 
 const useStyles = makeStyles((theme) => ({
   header: { padding: theme.spacing(5) },
@@ -16,95 +21,81 @@ const useStyles = makeStyles((theme) => ({
 
 const Cards = () => {
   const classes = useStyles();
-  const cardList = [
-    {
-      id: 1,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 2,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 3,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 4,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 5,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 6,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 7,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 8,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      id: 9,
-      connected: true,
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-    {
-      connected: true,
-      id: 10,
+  const itemCount = 4;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [cardList, setCardList] = useState([]);
+  const [filteredCardList, setFilteredCardList] = useState(cardList);
+  const { setAlertMsg, setAlertType, setAlertOpen } = useContext(AlertContext);
+  const [loading, setLoading] = useState(true);
 
-      heading: "Emma Kaya Matte",
-      subHeading: "CEO & Founder of InceTec",
-      url: "https://picsum.photos/400/400?random=1",
-    },
-  ];
+  useEffect(() => {
+    setLoading(true);
+    api.connection.getDisconnectedUsers().then((res) => {
+      if (res.type === "success") {
+        setAlertMsg(res.msg);
+        setAlertType("success");
+        setAlertOpen(true);
+        const reCreatedUserList = res.data.map((user) => ({
+          id: user.userID,
+          connected: false,
+          heading: `${user.firstName} ${user.lastName}`,
+          subHeading: user.jobTitle
+            ? user.jobTitle
+            : "Job title is not assigned yet",
+          url: urls.auth.loadProfileImage(user.userID),
+        }));
+        setCardList(reCreatedUserList);
+      } else {
+        setAlertMsg(res.msg);
+        setAlertType("error");
+        setAlertOpen(true);
+      }
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    setFilteredCardList(cardList);
+  }, [cardList]);
+
+  const removeCardFromCardList = (id) => {
+    const newCardList = cardList.filter((card) => card.id !== id);
+    setCardList(newCardList);
+  };
 
   return (
-    <>
+    <Loading loading={loading}>
       <Grid container justifyContent="center" className={classes.header}>
         <Typography variant="h5">Card List</Typography>
       </Grid>
       <Grid container justifyContent="center" className={classes.searchBox}>
-        <Search />
+        <Search
+          originalList={cardList}
+          setFilteredList={setFilteredCardList}
+          searchField={"heading"}
+        />
       </Grid>
-      <PersonCardGroup cardList={cardList} />
+      <PersonCardGroup
+        cardList={filteredCardList.slice(
+          itemCount * (currentPage - 1),
+          itemCount * currentPage
+        )}
+        removeCardFromCardList={removeCardFromCardList}
+      />
       <Grid container justifyContent="center" className={classes.seeMoreBtn}>
-        <Link component="button" variant="body1">
-          See More
-        </Link>
+        <Pagination
+          color="primary"
+          count={Math.ceil(filteredCardList.length / itemCount)}
+          shape="rounded"
+          size="large"
+          showFirstButton
+          showLastButton
+          onChange={(e, pageNumber) => {
+            setCurrentPage(pageNumber);
+          }}
+        />
       </Grid>
-    </>
+    </Loading>
   );
 };
 

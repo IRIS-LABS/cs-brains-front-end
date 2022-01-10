@@ -112,14 +112,14 @@ const PersonCard = ({
       </CardContent>
       <CardActions className={classes.cardActions}>
         {connected ? (
-          <Button
+          <LocalButton
             size="large"
             color="primary"
             variant="contained"
             onClick={() => handleUnfollow(id)}
           >
             Unfollow
-          </Button>
+          </LocalButton>
         ) : (
           <LocalButton
             size="large"

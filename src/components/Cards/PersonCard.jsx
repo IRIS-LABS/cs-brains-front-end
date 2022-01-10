@@ -116,6 +116,7 @@ const PersonCard = ({
             size="large"
             color="primary"
             variant="contained"
+            loading={loading}
             onClick={() => handleUnfollow(id)}
           >
             Unfollow
